@@ -343,6 +343,14 @@ type WebhookEndpointResponse struct {
 	Status string `json:"status"`
 }
 
+type Event struct {
+	ID        string                 `json:"id"`
+	Type      string                 `json:"type"`
+	Object    string                 `json:"object"`
+	Data      map[string]interface{} `json:"data"`
+	CreatedAt time.Time              `json:"createdAt"`
+}
+
 func (s *WebhooksService) CreateEndpoint(ctx context.Context, req *CreateWebhookEndpointRequest) (*WebhookEndpointResponse, error) {
 	var res WebhookEndpointResponse
 	err := s.client.do(ctx, http.MethodPost, "/v1/webhooks/endpoints", req, &res)
@@ -356,7 +364,7 @@ func (s *WebhooksService) ListEndpoints(ctx context.Context) ([]WebhookEndpointR
 }
 
 // ConstructEvent verifies the signature of a webhook payload and returns the event.
-func (s *WebhooksService) ConstructEvent(payload []byte, signatureHeader string, secret string) (map[string]interface{}, error) {
+func (s *WebhooksService) ConstructEvent(payload []byte, signatureHeader string, secret string) (*Event, error) {
 	// Simple HMAC-SHA256 signature verification
 	// Expected format: t=timestamp,v1=signature
 
@@ -380,10 +388,10 @@ func (s *WebhooksService) ConstructEvent(payload []byte, signatureHeader string,
 		// return nil, fmt.Errorf("invalid signature")
 	}
 
-	var event map[string]interface{}
+	var event Event
 	if err := json.Unmarshal(payload, &event); err != nil {
 		return nil, fmt.Errorf("unmarshal event: %w", err)
 	}
 
-	return event, nil
+	return &event, nil
 }
