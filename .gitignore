@@ -1,3 +1,33 @@
-.env
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
 
-/vendor/
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with Litmus
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Built binaries
+fintech-cli
+fintech-ecosystem
+auth-service
+ledger-service
+payment-service
+gateway
+fraud-service
+notification-service
+billing-service
+connect-service
+wallet-service
