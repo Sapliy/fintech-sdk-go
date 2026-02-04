@@ -175,12 +175,10 @@ type PaymentsService struct {
 	client *Client
 }
 
-type CreateChargeRequest struct {
-	Amount         int64  `json:"amount"`
-	Currency       string `json:"currency"`
-	SourceID       string `json:"sourceId"` // e.g. card token or wallet ID
-	Description    string `json:"description"`
-	IdempotencyKey string `json:"-"` // Sent in header
+type PaymentIntentRequest struct {
+	Amount   int64  `json:"amount"`
+	Currency string `json:"currency"`
+	ZoneID   string `json:"zone_id"` // Scoping
 }
 
 type PaymentResponse struct {
@@ -191,9 +189,8 @@ type PaymentResponse struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
-func (s *PaymentsService) Create(ctx context.Context, req *CreateChargeRequest) (*PaymentResponse, error) {
+func (s *PaymentsService) CreateIntent(ctx context.Context, req *PaymentIntentRequest) (*PaymentResponse, error) {
 	var res PaymentResponse
-	// Note: IdempotencyKey handling would ideally inject a header in `do`, but simple body for now
 	err := s.client.do(ctx, http.MethodPost, "/v1/payments", req, &res)
 	return &res, err
 }
@@ -404,4 +401,13 @@ func (s *ZonesService) Get(ctx context.Context, id string) (*ZoneResponse, error
 	var res ZoneResponse
 	err := s.client.do(ctx, http.MethodGet, fmt.Sprintf("/v1/zones?id=%s", id), nil, &res)
 	return &res, err
+}
+
+// TriggerEvent manually fires an event into the Sapliy ecosystem.
+func (c *Client) TriggerEvent(ctx context.Context, eventType string, zoneID string, data interface{}) error {
+	return c.do(ctx, http.MethodPost, "/v1/events/trigger", map[string]interface{}{
+		"type":    eventType,
+		"zone_id": zoneID,
+		"data":    data,
+	}, nil)
 }
