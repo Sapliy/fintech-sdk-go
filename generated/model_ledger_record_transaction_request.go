@@ -24,6 +24,8 @@ type LedgerRecordTransactionRequest struct {
 	Currency *string `json:"currency,omitempty"`
 	Description *string `json:"description,omitempty"`
 	ReferenceId *string `json:"referenceId,omitempty"`
+	ZoneId *string `json:"zoneId,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 }
 
 // NewLedgerRecordTransactionRequest instantiates a new LedgerRecordTransactionRequest object
@@ -203,6 +205,70 @@ func (o *LedgerRecordTransactionRequest) SetReferenceId(v string) {
 	o.ReferenceId = &v
 }
 
+// GetZoneId returns the ZoneId field value if set, zero value otherwise.
+func (o *LedgerRecordTransactionRequest) GetZoneId() string {
+	if o == nil || IsNil(o.ZoneId) {
+		var ret string
+		return ret
+	}
+	return *o.ZoneId
+}
+
+// GetZoneIdOk returns a tuple with the ZoneId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LedgerRecordTransactionRequest) GetZoneIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ZoneId) {
+		return nil, false
+	}
+	return o.ZoneId, true
+}
+
+// HasZoneId returns a boolean if a field has been set.
+func (o *LedgerRecordTransactionRequest) HasZoneId() bool {
+	if o != nil && !IsNil(o.ZoneId) {
+		return true
+	}
+
+	return false
+}
+
+// SetZoneId gets a reference to the given string and assigns it to the ZoneId field.
+func (o *LedgerRecordTransactionRequest) SetZoneId(v string) {
+	o.ZoneId = &v
+}
+
+// GetMode returns the Mode field value if set, zero value otherwise.
+func (o *LedgerRecordTransactionRequest) GetMode() string {
+	if o == nil || IsNil(o.Mode) {
+		var ret string
+		return ret
+	}
+	return *o.Mode
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LedgerRecordTransactionRequest) GetModeOk() (*string, bool) {
+	if o == nil || IsNil(o.Mode) {
+		return nil, false
+	}
+	return o.Mode, true
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *LedgerRecordTransactionRequest) HasMode() bool {
+	if o != nil && !IsNil(o.Mode) {
+		return true
+	}
+
+	return false
+}
+
+// SetMode gets a reference to the given string and assigns it to the Mode field.
+func (o *LedgerRecordTransactionRequest) SetMode(v string) {
+	o.Mode = &v
+}
+
 func (o LedgerRecordTransactionRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -227,6 +293,12 @@ func (o LedgerRecordTransactionRequest) ToMap() (map[string]interface{}, error) 
 	}
 	if !IsNil(o.ReferenceId) {
 		toSerialize["referenceId"] = o.ReferenceId
+	}
+	if !IsNil(o.ZoneId) {
+		toSerialize["zoneId"] = o.ZoneId
+	}
+	if !IsNil(o.Mode) {
+		toSerialize["mode"] = o.Mode
 	}
 	return toSerialize, nil
 }

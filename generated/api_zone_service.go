@@ -20,53 +20,53 @@ import (
 )
 
 
-// LedgerServiceAPIService LedgerServiceAPI service
-type LedgerServiceAPIService service
+// ZoneServiceAPIService ZoneServiceAPI service
+type ZoneServiceAPIService service
 
-type ApiLedgerServiceBulkRecordTransactionsRequest struct {
+type ApiZoneServiceBulkUpdateMetadataRequest struct {
 	ctx context.Context
-	ApiService *LedgerServiceAPIService
-	body *LedgerBulkRecordRequest
+	ApiService *ZoneServiceAPIService
+	body *ZoneBulkUpdateMetadataRequest
 }
 
-func (r ApiLedgerServiceBulkRecordTransactionsRequest) Body(body LedgerBulkRecordRequest) ApiLedgerServiceBulkRecordTransactionsRequest {
+func (r ApiZoneServiceBulkUpdateMetadataRequest) Body(body ZoneBulkUpdateMetadataRequest) ApiZoneServiceBulkUpdateMetadataRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiLedgerServiceBulkRecordTransactionsRequest) Execute() (*LedgerBulkRecordResponse, *http.Response, error) {
-	return r.ApiService.LedgerServiceBulkRecordTransactionsExecute(r)
+func (r ApiZoneServiceBulkUpdateMetadataRequest) Execute() (*ZoneBulkUpdateMetadataResponse, *http.Response, error) {
+	return r.ApiService.ZoneServiceBulkUpdateMetadataExecute(r)
 }
 
 /*
-LedgerServiceBulkRecordTransactions Method for LedgerServiceBulkRecordTransactions
+ZoneServiceBulkUpdateMetadata Method for ZoneServiceBulkUpdateMetadata
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiLedgerServiceBulkRecordTransactionsRequest
+ @return ApiZoneServiceBulkUpdateMetadataRequest
 */
-func (a *LedgerServiceAPIService) LedgerServiceBulkRecordTransactions(ctx context.Context) ApiLedgerServiceBulkRecordTransactionsRequest {
-	return ApiLedgerServiceBulkRecordTransactionsRequest{
+func (a *ZoneServiceAPIService) ZoneServiceBulkUpdateMetadata(ctx context.Context) ApiZoneServiceBulkUpdateMetadataRequest {
+	return ApiZoneServiceBulkUpdateMetadataRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return LedgerBulkRecordResponse
-func (a *LedgerServiceAPIService) LedgerServiceBulkRecordTransactionsExecute(r ApiLedgerServiceBulkRecordTransactionsRequest) (*LedgerBulkRecordResponse, *http.Response, error) {
+//  @return ZoneBulkUpdateMetadataResponse
+func (a *ZoneServiceAPIService) ZoneServiceBulkUpdateMetadataExecute(r ApiZoneServiceBulkUpdateMetadataRequest) (*ZoneBulkUpdateMetadataResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *LedgerBulkRecordResponse
+		localVarReturnValue  *ZoneBulkUpdateMetadataResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "LedgerServiceAPIService.LedgerServiceBulkRecordTransactions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ZoneServiceAPIService.ZoneServiceBulkUpdateMetadata")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/ledger/bulk-transactions"
+	localVarPath := localBasePath + "/v1/zones/bulk-metadata"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -139,50 +139,50 @@ func (a *LedgerServiceAPIService) LedgerServiceBulkRecordTransactionsExecute(r A
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiLedgerServiceCreateAccountRequest struct {
+type ApiZoneServiceCreateZoneRequest struct {
 	ctx context.Context
-	ApiService *LedgerServiceAPIService
-	body *LedgerCreateAccountRequest
+	ApiService *ZoneServiceAPIService
+	body *ZoneCreateZoneRequest
 }
 
-func (r ApiLedgerServiceCreateAccountRequest) Body(body LedgerCreateAccountRequest) ApiLedgerServiceCreateAccountRequest {
+func (r ApiZoneServiceCreateZoneRequest) Body(body ZoneCreateZoneRequest) ApiZoneServiceCreateZoneRequest {
 	r.body = &body
 	return r
 }
 
-func (r ApiLedgerServiceCreateAccountRequest) Execute() (*LedgerCreateAccountResponse, *http.Response, error) {
-	return r.ApiService.LedgerServiceCreateAccountExecute(r)
+func (r ApiZoneServiceCreateZoneRequest) Execute() (*ZoneZone, *http.Response, error) {
+	return r.ApiService.ZoneServiceCreateZoneExecute(r)
 }
 
 /*
-LedgerServiceCreateAccount Method for LedgerServiceCreateAccount
+ZoneServiceCreateZone Method for ZoneServiceCreateZone
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiLedgerServiceCreateAccountRequest
+ @return ApiZoneServiceCreateZoneRequest
 */
-func (a *LedgerServiceAPIService) LedgerServiceCreateAccount(ctx context.Context) ApiLedgerServiceCreateAccountRequest {
-	return ApiLedgerServiceCreateAccountRequest{
+func (a *ZoneServiceAPIService) ZoneServiceCreateZone(ctx context.Context) ApiZoneServiceCreateZoneRequest {
+	return ApiZoneServiceCreateZoneRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return LedgerCreateAccountResponse
-func (a *LedgerServiceAPIService) LedgerServiceCreateAccountExecute(r ApiLedgerServiceCreateAccountRequest) (*LedgerCreateAccountResponse, *http.Response, error) {
+//  @return ZoneZone
+func (a *ZoneServiceAPIService) ZoneServiceCreateZoneExecute(r ApiZoneServiceCreateZoneRequest) (*ZoneZone, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *LedgerCreateAccountResponse
+		localVarReturnValue  *ZoneZone
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "LedgerServiceAPIService.LedgerServiceCreateAccount")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ZoneServiceAPIService.ZoneServiceCreateZone")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/ledger/accounts"
+	localVarPath := localBasePath + "/v1/zones"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -255,48 +255,48 @@ func (a *LedgerServiceAPIService) LedgerServiceCreateAccountExecute(r ApiLedgerS
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiLedgerServiceGetAccountRequest struct {
+type ApiZoneServiceGetZoneRequest struct {
 	ctx context.Context
-	ApiService *LedgerServiceAPIService
-	accountId string
+	ApiService *ZoneServiceAPIService
+	id string
 }
 
-func (r ApiLedgerServiceGetAccountRequest) Execute() (*LedgerGetAccountResponse, *http.Response, error) {
-	return r.ApiService.LedgerServiceGetAccountExecute(r)
+func (r ApiZoneServiceGetZoneRequest) Execute() (*ZoneZone, *http.Response, error) {
+	return r.ApiService.ZoneServiceGetZoneExecute(r)
 }
 
 /*
-LedgerServiceGetAccount Method for LedgerServiceGetAccount
+ZoneServiceGetZone Method for ZoneServiceGetZone
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param accountId
- @return ApiLedgerServiceGetAccountRequest
+ @param id
+ @return ApiZoneServiceGetZoneRequest
 */
-func (a *LedgerServiceAPIService) LedgerServiceGetAccount(ctx context.Context, accountId string) ApiLedgerServiceGetAccountRequest {
-	return ApiLedgerServiceGetAccountRequest{
+func (a *ZoneServiceAPIService) ZoneServiceGetZone(ctx context.Context, id string) ApiZoneServiceGetZoneRequest {
+	return ApiZoneServiceGetZoneRequest{
 		ApiService: a,
 		ctx: ctx,
-		accountId: accountId,
+		id: id,
 	}
 }
 
 // Execute executes the request
-//  @return LedgerGetAccountResponse
-func (a *LedgerServiceAPIService) LedgerServiceGetAccountExecute(r ApiLedgerServiceGetAccountRequest) (*LedgerGetAccountResponse, *http.Response, error) {
+//  @return ZoneZone
+func (a *ZoneServiceAPIService) ZoneServiceGetZoneExecute(r ApiZoneServiceGetZoneRequest) (*ZoneZone, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *LedgerGetAccountResponse
+		localVarReturnValue  *ZoneZone
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "LedgerServiceAPIService.LedgerServiceGetAccount")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ZoneServiceAPIService.ZoneServiceGetZone")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/ledger/accounts/{accountId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"accountId"+"}", url.PathEscape(parameterValueToString(r.accountId, "accountId")), -1)
+	localVarPath := localBasePath + "/v1/zones/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -364,50 +364,168 @@ func (a *LedgerServiceAPIService) LedgerServiceGetAccountExecute(r ApiLedgerServ
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiLedgerServiceRecordTransactionRequest struct {
+type ApiZoneServiceListZonesRequest struct {
 	ctx context.Context
-	ApiService *LedgerServiceAPIService
-	body *LedgerRecordTransactionRequest
+	ApiService *ZoneServiceAPIService
+	orgId *string
 }
 
-func (r ApiLedgerServiceRecordTransactionRequest) Body(body LedgerRecordTransactionRequest) ApiLedgerServiceRecordTransactionRequest {
-	r.body = &body
+func (r ApiZoneServiceListZonesRequest) OrgId(orgId string) ApiZoneServiceListZonesRequest {
+	r.orgId = &orgId
 	return r
 }
 
-func (r ApiLedgerServiceRecordTransactionRequest) Execute() (*LedgerRecordTransactionResponse, *http.Response, error) {
-	return r.ApiService.LedgerServiceRecordTransactionExecute(r)
+func (r ApiZoneServiceListZonesRequest) Execute() (*ZoneListZonesResponse, *http.Response, error) {
+	return r.ApiService.ZoneServiceListZonesExecute(r)
 }
 
 /*
-LedgerServiceRecordTransaction Method for LedgerServiceRecordTransaction
+ZoneServiceListZones Method for ZoneServiceListZones
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiLedgerServiceRecordTransactionRequest
+ @return ApiZoneServiceListZonesRequest
 */
-func (a *LedgerServiceAPIService) LedgerServiceRecordTransaction(ctx context.Context) ApiLedgerServiceRecordTransactionRequest {
-	return ApiLedgerServiceRecordTransactionRequest{
+func (a *ZoneServiceAPIService) ZoneServiceListZones(ctx context.Context) ApiZoneServiceListZonesRequest {
+	return ApiZoneServiceListZonesRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return LedgerRecordTransactionResponse
-func (a *LedgerServiceAPIService) LedgerServiceRecordTransactionExecute(r ApiLedgerServiceRecordTransactionRequest) (*LedgerRecordTransactionResponse, *http.Response, error) {
+//  @return ZoneListZonesResponse
+func (a *ZoneServiceAPIService) ZoneServiceListZonesExecute(r ApiZoneServiceListZonesRequest) (*ZoneListZonesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *LedgerRecordTransactionResponse
+		localVarReturnValue  *ZoneListZonesResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "LedgerServiceAPIService.LedgerServiceRecordTransaction")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ZoneServiceAPIService.ZoneServiceListZones")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/ledger/transactions"
+	localVarPath := localBasePath + "/v1/zones"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.orgId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orgId", r.orgId, "", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiZoneServiceUpdateZoneRequest struct {
+	ctx context.Context
+	ApiService *ZoneServiceAPIService
+	id string
+	body *ZoneServiceUpdateZoneBody
+}
+
+func (r ApiZoneServiceUpdateZoneRequest) Body(body ZoneServiceUpdateZoneBody) ApiZoneServiceUpdateZoneRequest {
+	r.body = &body
+	return r
+}
+
+func (r ApiZoneServiceUpdateZoneRequest) Execute() (*ZoneZone, *http.Response, error) {
+	return r.ApiService.ZoneServiceUpdateZoneExecute(r)
+}
+
+/*
+ZoneServiceUpdateZone Method for ZoneServiceUpdateZone
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id
+ @return ApiZoneServiceUpdateZoneRequest
+*/
+func (a *ZoneServiceAPIService) ZoneServiceUpdateZone(ctx context.Context, id string) ApiZoneServiceUpdateZoneRequest {
+	return ApiZoneServiceUpdateZoneRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+//  @return ZoneZone
+func (a *ZoneServiceAPIService) ZoneServiceUpdateZoneExecute(r ApiZoneServiceUpdateZoneRequest) (*ZoneZone, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ZoneZone
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ZoneServiceAPIService.ZoneServiceUpdateZone")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/zones/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

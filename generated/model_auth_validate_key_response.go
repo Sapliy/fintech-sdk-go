@@ -26,6 +26,8 @@ type AuthValidateKeyResponse struct {
 	OrgId *string `json:"orgId,omitempty"`
 	Role *string `json:"role,omitempty"`
 	RateLimitQuota *int32 `json:"rateLimitQuota,omitempty"`
+	ZoneId *string `json:"zoneId,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 }
 
 // NewAuthValidateKeyResponse instantiates a new AuthValidateKeyResponse object
@@ -269,6 +271,70 @@ func (o *AuthValidateKeyResponse) SetRateLimitQuota(v int32) {
 	o.RateLimitQuota = &v
 }
 
+// GetZoneId returns the ZoneId field value if set, zero value otherwise.
+func (o *AuthValidateKeyResponse) GetZoneId() string {
+	if o == nil || IsNil(o.ZoneId) {
+		var ret string
+		return ret
+	}
+	return *o.ZoneId
+}
+
+// GetZoneIdOk returns a tuple with the ZoneId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AuthValidateKeyResponse) GetZoneIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ZoneId) {
+		return nil, false
+	}
+	return o.ZoneId, true
+}
+
+// HasZoneId returns a boolean if a field has been set.
+func (o *AuthValidateKeyResponse) HasZoneId() bool {
+	if o != nil && !IsNil(o.ZoneId) {
+		return true
+	}
+
+	return false
+}
+
+// SetZoneId gets a reference to the given string and assigns it to the ZoneId field.
+func (o *AuthValidateKeyResponse) SetZoneId(v string) {
+	o.ZoneId = &v
+}
+
+// GetMode returns the Mode field value if set, zero value otherwise.
+func (o *AuthValidateKeyResponse) GetMode() string {
+	if o == nil || IsNil(o.Mode) {
+		var ret string
+		return ret
+	}
+	return *o.Mode
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AuthValidateKeyResponse) GetModeOk() (*string, bool) {
+	if o == nil || IsNil(o.Mode) {
+		return nil, false
+	}
+	return o.Mode, true
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *AuthValidateKeyResponse) HasMode() bool {
+	if o != nil && !IsNil(o.Mode) {
+		return true
+	}
+
+	return false
+}
+
+// SetMode gets a reference to the given string and assigns it to the Mode field.
+func (o *AuthValidateKeyResponse) SetMode(v string) {
+	o.Mode = &v
+}
+
 func (o AuthValidateKeyResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -299,6 +365,12 @@ func (o AuthValidateKeyResponse) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.RateLimitQuota) {
 		toSerialize["rateLimitQuota"] = o.RateLimitQuota
+	}
+	if !IsNil(o.ZoneId) {
+		toSerialize["zoneId"] = o.ZoneId
+	}
+	if !IsNil(o.Mode) {
+		toSerialize["mode"] = o.Mode
 	}
 	return toSerialize, nil
 }

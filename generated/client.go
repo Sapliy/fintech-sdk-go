@@ -53,6 +53,8 @@ type APIClient struct {
 
 	BillingServiceAPI *BillingServiceAPIService
 
+	FlowServiceAPI *FlowServiceAPIService
+
 	LedgerServiceAPI *LedgerServiceAPIService
 
 	NotificationServiceAPI *NotificationServiceAPIService
@@ -60,6 +62,8 @@ type APIClient struct {
 	PaymentServiceAPI *PaymentServiceAPIService
 
 	WalletServiceAPI *WalletServiceAPIService
+
+	ZoneServiceAPI *ZoneServiceAPIService
 }
 
 type service struct {
@@ -80,10 +84,12 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	// API Services
 	c.AuthServiceAPI = (*AuthServiceAPIService)(&c.common)
 	c.BillingServiceAPI = (*BillingServiceAPIService)(&c.common)
+	c.FlowServiceAPI = (*FlowServiceAPIService)(&c.common)
 	c.LedgerServiceAPI = (*LedgerServiceAPIService)(&c.common)
 	c.NotificationServiceAPI = (*NotificationServiceAPIService)(&c.common)
 	c.PaymentServiceAPI = (*PaymentServiceAPIService)(&c.common)
 	c.WalletServiceAPI = (*WalletServiceAPIService)(&c.common)
+	c.ZoneServiceAPI = (*ZoneServiceAPIService)(&c.common)
 
 	return c
 }

@@ -9,10 +9,12 @@ tags:
 - name: LedgerService
 - name: AuthService
 - name: FraudService
+- name: ZoneService
 - name: WalletService
 - name: ConnectService
 - name: NotificationService
 - name: BillingService
+- name: FlowService
 paths:
   /v1/auth/audit_logs:
     get:
@@ -366,6 +368,212 @@ paths:
       tags:
       - BillingService
       x-codegen-request-body-name: body
+  /v1/flows:
+    get:
+      operationId: FlowService_ListFlows
+      parameters:
+      - in: query
+        name: zoneId
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowListFlowsResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+    post:
+      operationId: FlowService_CreateFlow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/flowCreateFlowRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowFlow"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+      x-codegen-request-body-name: body
+  /v1/flows/bulk-update:
+    post:
+      operationId: FlowService_BulkUpdateFlows
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/flowBulkUpdateFlowsRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowBulkUpdateFlowsResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+      x-codegen-request-body-name: body
+  /v1/flows/executions/{executionId}/resume:
+    post:
+      operationId: FlowService_ResumeExecution
+      parameters:
+      - in: path
+        name: executionId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FlowServiceResumeExecutionBody"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowResumeExecutionResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+      x-codegen-request-body-name: body
+  /v1/flows/executions/{id}:
+    get:
+      operationId: FlowService_GetExecution
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowFlowExecution"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+  /v1/flows/{id}:
+    get:
+      operationId: FlowService_GetFlow
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowFlow"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+    put:
+      operationId: FlowService_UpdateFlow
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FlowServiceUpdateFlowBody"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/flowFlow"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - FlowService
+      x-codegen-request-body-name: body
+  /v1/ledger/accounts:
+    post:
+      operationId: LedgerService_CreateAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ledgerCreateAccountRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ledgerCreateAccountResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - LedgerService
+      x-codegen-request-body-name: body
   /v1/ledger/accounts/{accountId}:
     get:
       operationId: LedgerService_GetAccount
@@ -390,6 +598,31 @@ paths:
           description: An unexpected error response.
       tags:
       - LedgerService
+  /v1/ledger/bulk-transactions:
+    post:
+      operationId: LedgerService_BulkRecordTransactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ledgerBulkRecordRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ledgerBulkRecordResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - LedgerService
+      x-codegen-request-body-name: body
   /v1/ledger/transactions:
     post:
       operationId: LedgerService_RecordTransaction
@@ -700,9 +933,158 @@ paths:
           description: An unexpected error response.
       tags:
       - NotificationService
+  /v1/zones:
+    get:
+      operationId: ZoneService_ListZones
+      parameters:
+      - in: query
+        name: orgId
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/zoneListZonesResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - ZoneService
+    post:
+      operationId: ZoneService_CreateZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/zoneCreateZoneRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/zoneZone"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - ZoneService
+      x-codegen-request-body-name: body
+  /v1/zones/bulk-metadata:
+    post:
+      operationId: ZoneService_BulkUpdateMetadata
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/zoneBulkUpdateMetadataRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/zoneBulkUpdateMetadataResponse"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - ZoneService
+      x-codegen-request-body-name: body
+  /v1/zones/{id}:
+    get:
+      operationId: ZoneService_GetZone
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/zoneZone"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - ZoneService
+    put:
+      operationId: ZoneService_UpdateZone
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ZoneServiceUpdateZoneBody"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/zoneZone"
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rpcStatus"
+          description: An unexpected error response.
+      tags:
+      - ZoneService
+      x-codegen-request-body-name: body
 components:
   schemas:
     BillingServiceCancelSubscriptionBody:
+      type: object
+    FlowServiceResumeExecutionBody:
+      example:
+        overridesJson: overridesJson
+      properties:
+        overridesJson:
+          type: string
+      type: object
+    FlowServiceUpdateFlowBody:
+      example:
+        nodesJson: nodesJson
+        edgesJson: edgesJson
+        name: name
+        enabled: true
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        nodesJson:
+          type: string
+        edgesJson:
+          type: string
       type: object
     PaymentServiceConfirmPaymentIntentBody:
       example:
@@ -712,6 +1094,22 @@ components:
           type: string
       type: object
     PaymentServiceRefundPaymentIntentBody:
+      type: object
+    ZoneServiceUpdateZoneBody:
+      example:
+        metadata:
+          key: metadata
+        name: name
+        status: status
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
       type: object
     authAddTeamMemberRequest:
       properties:
@@ -887,9 +1285,11 @@ components:
     authValidateKeyResponse:
       example:
         valid: true
+        mode: mode
         environment: environment
         role: role
         rateLimitQuota: 0
+        zoneId: zoneId
         scopes: scopes
         userId: userId
         orgId: orgId
@@ -909,6 +1309,10 @@ components:
         rateLimitQuota:
           format: int32
           type: integer
+        zoneId:
+          type: string
+        mode:
+          type: string
       type: object
     authValidateTokenRequest:
       properties:
@@ -1010,6 +1414,212 @@ components:
           format: date-time
           type: string
       type: object
+    flowBulkUpdateFlowsRequest:
+      properties:
+        flowIds:
+          items:
+            type: string
+          type: array
+        enabled:
+          type: boolean
+      type: object
+    flowBulkUpdateFlowsResponse:
+      example:
+        updatedCount: 0
+      properties:
+        updatedCount:
+          format: int32
+          type: integer
+      type: object
+    flowCreateFlowRequest:
+      properties:
+        zoneId:
+          type: string
+        name:
+          type: string
+        nodesJson:
+          type: string
+        edgesJson:
+          type: string
+      type: object
+    flowExecutionStep:
+      example:
+        outputJson: outputJson
+        startedAt: 2000-01-23T04:56:07.000+00:00
+        inputJson: inputJson
+        error: error
+        nodeId: nodeId
+        status: status
+      properties:
+        nodeId:
+          type: string
+        status:
+          type: string
+        inputJson:
+          type: string
+        outputJson:
+          type: string
+        error:
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+      type: object
+    flowFlow:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        nodesJson: nodesJson
+        edgesJson: edgesJson
+        name: name
+        zoneId: zoneId
+        id: id
+        enabled: true
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        zoneId:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        nodesJson:
+          title: Simplified for dynamic nodes
+          type: string
+        edgesJson:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    flowFlowExecution:
+      example:
+        metadataJson: metadataJson
+        currentNodeId: currentNodeId
+        startedAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        inputJson: inputJson
+        flowId: flowId
+        steps:
+        - outputJson: outputJson
+          startedAt: 2000-01-23T04:56:07.000+00:00
+          inputJson: inputJson
+          error: error
+          nodeId: nodeId
+          status: status
+        - outputJson: outputJson
+          startedAt: 2000-01-23T04:56:07.000+00:00
+          inputJson: inputJson
+          error: error
+          nodeId: nodeId
+          status: status
+        status: status
+        finishedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        flowId:
+          type: string
+        status:
+          title: "\"running\", \"completed\", \"failed\", \"paused\""
+          type: string
+        currentNodeId:
+          type: string
+        inputJson:
+          type: string
+        metadataJson:
+          type: string
+        steps:
+          items:
+            $ref: "#/components/schemas/flowExecutionStep"
+          type: array
+        startedAt:
+          format: date-time
+          type: string
+        finishedAt:
+          format: date-time
+          type: string
+      type: object
+    flowListFlowsResponse:
+      example:
+        flows:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          nodesJson: nodesJson
+          edgesJson: edgesJson
+          name: name
+          zoneId: zoneId
+          id: id
+          enabled: true
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          nodesJson: nodesJson
+          edgesJson: edgesJson
+          name: name
+          zoneId: zoneId
+          id: id
+          enabled: true
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        flows:
+          items:
+            $ref: "#/components/schemas/flowFlow"
+          type: array
+      type: object
+    flowResumeExecutionResponse:
+      example:
+        status: status
+      properties:
+        status:
+          type: string
+      type: object
+    ledgerBulkRecordRequest:
+      properties:
+        transactions:
+          items:
+            $ref: "#/components/schemas/ledgerRecordTransactionRequest"
+          type: array
+      type: object
+    ledgerBulkRecordResponse:
+      example:
+        responses:
+        - transactionId: transactionId
+          status: status
+        - transactionId: transactionId
+          status: status
+      properties:
+        responses:
+          items:
+            $ref: "#/components/schemas/ledgerRecordTransactionResponse"
+          type: array
+      type: object
+    ledgerCreateAccountRequest:
+      properties:
+        name:
+          type: string
+        type:
+          title: "e.g. \"asset\", \"liability\", \"revenue\", \"expense\""
+          type: string
+        currency:
+          type: string
+        zoneId:
+          type: string
+        mode:
+          type: string
+      type: object
+    ledgerCreateAccountResponse:
+      example:
+        accountId: accountId
+        status: status
+      properties:
+        accountId:
+          type: string
+        status:
+          type: string
+      type: object
     ledgerGetAccountResponse:
       example:
         accountId: accountId
@@ -1042,6 +1652,10 @@ components:
           type: string
         referenceId:
           title: e.g. PaymentIntent ID
+          type: string
+        zoneId:
+          type: string
+        mode:
           type: string
       type: object
     ledgerRecordTransactionResponse:
@@ -1314,6 +1928,109 @@ components:
           format: int64
           type: string
         currency:
+          type: string
+      type: object
+    zoneBulkUpdateMetadataRequest:
+      properties:
+        zoneIds:
+          items:
+            type: string
+          type: array
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    zoneBulkUpdateMetadataResponse:
+      example:
+        updatedCount: 0
+      properties:
+        updatedCount:
+          format: int32
+          type: integer
+      type: object
+    zoneCreateZoneRequest:
+      properties:
+        orgId:
+          type: string
+        name:
+          type: string
+        mode:
+          type: string
+        templateName:
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    zoneListZonesResponse:
+      example:
+        zones:
+        - mode: mode
+          publishableKey: publishableKey
+          createdAt: createdAt
+          metadata:
+            key: metadata
+          secretKey: secretKey
+          templateName: templateName
+          name: name
+          id: id
+          orgId: orgId
+          status: status
+        - mode: mode
+          publishableKey: publishableKey
+          createdAt: createdAt
+          metadata:
+            key: metadata
+          secretKey: secretKey
+          templateName: templateName
+          name: name
+          id: id
+          orgId: orgId
+          status: status
+      properties:
+        zones:
+          items:
+            $ref: "#/components/schemas/zoneZone"
+          type: array
+      type: object
+    zoneZone:
+      example:
+        mode: mode
+        publishableKey: publishableKey
+        createdAt: createdAt
+        metadata:
+          key: metadata
+        secretKey: secretKey
+        templateName: templateName
+        name: name
+        id: id
+        orgId: orgId
+        status: status
+      properties:
+        id:
+          type: string
+        orgId:
+          type: string
+        name:
+          type: string
+        mode:
+          title: '"test" | "live"'
+          type: string
+        secretKey:
+          type: string
+        publishableKey:
+          type: string
+        status:
+          type: string
+        templateName:
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+        createdAt:
           type: string
       type: object
 x-original-swagger-version: "2.0"

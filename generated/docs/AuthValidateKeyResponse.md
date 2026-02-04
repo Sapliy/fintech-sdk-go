@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **OrgId** | Pointer to **string** |  | [optional] 
 **Role** | Pointer to **string** |  | [optional] 
 **RateLimitQuota** | Pointer to **int32** |  | [optional] 
+**ZoneId** | Pointer to **string** |  | [optional] 
+**Mode** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -205,6 +207,56 @@ SetRateLimitQuota sets RateLimitQuota field to given value.
 `func (o *AuthValidateKeyResponse) HasRateLimitQuota() bool`
 
 HasRateLimitQuota returns a boolean if a field has been set.
+
+### GetZoneId
+
+`func (o *AuthValidateKeyResponse) GetZoneId() string`
+
+GetZoneId returns the ZoneId field if non-nil, zero value otherwise.
+
+### GetZoneIdOk
+
+`func (o *AuthValidateKeyResponse) GetZoneIdOk() (*string, bool)`
+
+GetZoneIdOk returns a tuple with the ZoneId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZoneId
+
+`func (o *AuthValidateKeyResponse) SetZoneId(v string)`
+
+SetZoneId sets ZoneId field to given value.
+
+### HasZoneId
+
+`func (o *AuthValidateKeyResponse) HasZoneId() bool`
+
+HasZoneId returns a boolean if a field has been set.
+
+### GetMode
+
+`func (o *AuthValidateKeyResponse) GetMode() string`
+
+GetMode returns the Mode field if non-nil, zero value otherwise.
+
+### GetModeOk
+
+`func (o *AuthValidateKeyResponse) GetModeOk() (*string, bool)`
+
+GetModeOk returns a tuple with the Mode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMode
+
+`func (o *AuthValidateKeyResponse) SetMode(v string)`
+
+SetMode sets Mode field to given value.
+
+### HasMode
+
+`func (o *AuthValidateKeyResponse) HasMode() bool`
+
+HasMode returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

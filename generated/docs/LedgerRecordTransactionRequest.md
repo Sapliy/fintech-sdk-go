@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **Currency** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **ReferenceId** | Pointer to **string** |  | [optional] 
+**ZoneId** | Pointer to **string** |  | [optional] 
+**Mode** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -153,6 +155,56 @@ SetReferenceId sets ReferenceId field to given value.
 `func (o *LedgerRecordTransactionRequest) HasReferenceId() bool`
 
 HasReferenceId returns a boolean if a field has been set.
+
+### GetZoneId
+
+`func (o *LedgerRecordTransactionRequest) GetZoneId() string`
+
+GetZoneId returns the ZoneId field if non-nil, zero value otherwise.
+
+### GetZoneIdOk
+
+`func (o *LedgerRecordTransactionRequest) GetZoneIdOk() (*string, bool)`
+
+GetZoneIdOk returns a tuple with the ZoneId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetZoneId
+
+`func (o *LedgerRecordTransactionRequest) SetZoneId(v string)`
+
+SetZoneId sets ZoneId field to given value.
+
+### HasZoneId
+
+`func (o *LedgerRecordTransactionRequest) HasZoneId() bool`
+
+HasZoneId returns a boolean if a field has been set.
+
+### GetMode
+
+`func (o *LedgerRecordTransactionRequest) GetMode() string`
+
+GetMode returns the Mode field if non-nil, zero value otherwise.
+
+### GetModeOk
+
+`func (o *LedgerRecordTransactionRequest) GetModeOk() (*string, bool)`
+
+GetModeOk returns a tuple with the Mode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMode
+
+`func (o *LedgerRecordTransactionRequest) SetMode(v string)`
+
+SetMode sets Mode field to given value.
+
+### HasMode
+
+`func (o *LedgerRecordTransactionRequest) HasMode() bool`
+
+HasMode returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
