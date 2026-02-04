@@ -1,7 +1,7 @@
 package fintech
 
 import (
-	"fmt"
+	"strings"
 
 	"github.com/sapliy/fintech-sdk-go/generated"
 )
@@ -13,6 +13,8 @@ type SapliyClient struct {
 	Notifications *generated.NotificationServiceAPIService
 	Payments      *generated.PaymentServiceAPIService
 	Wallets       *generated.WalletServiceAPIService
+	Flows         *generated.FlowServiceAPIService
+	Zones         *generated.ZoneServiceAPIService
 	Config        *generated.Configuration
 }
 
@@ -22,9 +24,12 @@ func NewSapliyClient(apiKey string, baseURL string) *SapliyClient {
 	}
 
 	cfg := generated.NewConfiguration()
-	cfg.Host = baseURL
+	cfg.Host = strings.TrimPrefix(strings.TrimPrefix(baseURL, "http://"), "https://")
 	cfg.Scheme = "http"
-	cfg.AddDefaultHeader("Authorization", fmt.Sprintf("Bearer %s", apiKey))
+	if strings.HasPrefix(baseURL, "https") {
+		cfg.Scheme = "https"
+	}
+	cfg.AddDefaultHeader("X-API-Key", apiKey)
 
 	apiClient := generated.NewAPIClient(cfg)
 
@@ -35,6 +40,8 @@ func NewSapliyClient(apiKey string, baseURL string) *SapliyClient {
 		Notifications: apiClient.NotificationServiceAPI,
 		Payments:      apiClient.PaymentServiceAPI,
 		Wallets:       apiClient.WalletServiceAPI,
+		Flows:         apiClient.FlowServiceAPI,
+		Zones:         apiClient.ZoneServiceAPI,
 		Config:        cfg,
 	}
 }

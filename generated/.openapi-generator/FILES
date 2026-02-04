@@ -136,6 +136,4 @@ model_zone_list_zones_response.go
 model_zone_service_update_zone_body.go
 model_zone_zone.go
 response.go
-test/api_flow_service_test.go
-test/api_zone_service_test.go
 utils.go
