@@ -77,8 +77,6 @@ docs/ZoneServiceAPI.md
 docs/ZoneServiceUpdateZoneBody.md
 docs/ZoneZone.md
 git_push.sh
-go.mod
-go.sum
 model_auth_add_team_member_request.go
 model_auth_audit_log.go
 model_auth_create_sso_provider_request.go
