@@ -411,3 +411,17 @@ func (c *Client) TriggerEvent(ctx context.Context, eventType string, zoneID stri
 		"data":    data,
 	}, nil)
 }
+
+// ReplayEvent re-triggers a past event.
+func (c *Client) ReplayEvent(ctx context.Context, eventID string, zoneID string) error {
+	return c.do(ctx, http.MethodPost, fmt.Sprintf("/api/v1/events/%s/replay", eventID), map[string]interface{}{
+		"zoneId": zoneID,
+	}, nil)
+}
+
+// GetPastEvents retrieves past events for a zone.
+func (c *Client) GetPastEvents(ctx context.Context, zoneID string, limit int, offset int) ([]*Event, error) {
+	var res []*Event
+	err := c.do(ctx, http.MethodGet, fmt.Sprintf("/api/v1/zones/%s/events/past?limit=%d&offset=%d", zoneID, limit, offset), nil, &res)
+	return res, err
+}
