@@ -71,24 +71,28 @@ func WithHTTPClient(hc *http.Client) ClientOption {
 	}
 }
 
-func (c *Client) do(ctx context.Context, method, path string, body interface{}, out interface{}) error {
+func (c *Client) newRequest(ctx context.Context, method, path string, body interface{}) (*http.Request, error) {
 	var bodyReader io.Reader
 	if body != nil {
 		data, err := json.Marshal(body)
 		if err != nil {
-			return fmt.Errorf("marshal body: %w", err)
+			return nil, fmt.Errorf("marshal body: %w", err)
 		}
 		bodyReader = bytes.NewReader(data)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, method, c.baseURL+path, bodyReader)
 	if err != nil {
-		return fmt.Errorf("create request: %w", err)
+		return nil, fmt.Errorf("create request: %w", err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-API-Key", c.apiKey)
 
+	return req, nil
+}
+
+func (c *Client) doRequest(req *http.Request, out interface{}) error {
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("do request: %w", err)
@@ -108,6 +112,14 @@ func (c *Client) do(ctx context.Context, method, path string, body interface{}, 
 	}
 
 	return nil
+}
+
+func (c *Client) do(ctx context.Context, method, path string, body interface{}, out interface{}) error {
+	req, err := c.newRequest(ctx, method, path, body)
+	if err != nil {
+		return err
+	}
+	return c.doRequest(req, out)
 }
 
 // --- Ledger Service ---
