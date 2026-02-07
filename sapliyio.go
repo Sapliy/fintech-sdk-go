@@ -28,6 +28,7 @@ type Client struct {
 	Connect  *ConnectService
 	Webhooks *WebhooksService
 	Zones    *ZonesService
+	Flows    *FlowsService
 }
 
 // ClientOption is a function that configures a Client.
@@ -53,6 +54,7 @@ func NewClient(apiKey string, opts ...ClientOption) *Client {
 	c.Connect = &ConnectService{client: c}
 	c.Webhooks = &WebhooksService{client: c}
 	c.Zones = &ZonesService{client: c}
+	c.Flows = &FlowsService{client: c}
 
 	return c
 }
