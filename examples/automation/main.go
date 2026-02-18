@@ -8,30 +8,30 @@ import (
 	"github.com/sapliy/fintech-sdk-go"
 )
 
+//nolint:deadcode
 func main() {
 	// Initialize SDK
 	client := fintech.NewClient("sk_test_51...your_key", fintech.WithBaseURL("http://localhost:8080"))
 
 	// 1. Create a Zone for this example
-	zone, err := client.Zones.Create(context.Background(), &fintech.CreateZoneRequest{
-		Name: "Automation-Test",
-		Mode: "test",
-	})
+	// Using wrapper method: Create(ctx, orgID, name, mode, templateName)
+	// We'll use a dummy orgID for the example
+	zoneID, err := client.Zones.Create(context.Background(), "org_demo", "Automation-Test", "test", "standard")
 	if err != nil {
 		log.Fatalf("Failed to create zone: %v", err)
 	}
-	fmt.Printf("Created Zone: %s\n", zone.ID)
+	fmt.Printf("Created Zone: %s\n", zoneID)
 
 	// 2. Create a Payment Intent (this will trigger a Kafka event)
-	intent, err := client.Payments.CreateIntent(context.Background(), &fintech.PaymentIntentRequest{
-		Amount:   15000, // $150.00
+	intent, err := client.Payments.CreateIntent(context.Background(), &fintech.CreatePaymentRequest{
+		Amount:   15000,
 		Currency: "USD",
-		ZoneID:   zone.ID, // Scope to our new zone
+		ZoneID:   zoneID,
 	})
 	if err != nil {
 		log.Fatalf("Failed to create intent: %v", err)
 	}
-	fmt.Printf("Created Payment Intent: %s. This should trigger an automated ledger provision.\n", intent.ID)
+	fmt.Printf("Created Payment Intent: %s. This should trigger an automated ledger provision.\n", intent.GetId())
 
 	// In a real scenario, the Flow Engine would now pick up the 'payment.succeeded' event
 	// and execute nodes like 'Check Amount > 100' -> 'Provision Ledger'.

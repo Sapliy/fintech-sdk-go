@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/sapliy/fintech-sdk-go"
-	"github.com/sapliy/fintech-sdk-go/generated"
 )
 
 /**
@@ -17,44 +16,33 @@ import (
  * 2. Activate a bundle of automation Flows
  */
 func main() {
-	client := fintech.NewSapliyClient("sk_live_bridge_991", "http://localhost:8080")
+	client := fintech.NewClient("sk_live_bridge_991", fintech.WithBaseURL("http://localhost:8080"))
 
 	orgID := "org_tenant_445"
 	ctx := context.Background()
 
 	fmt.Println("--- Step 1: Provisioning Zone for Tenant ---")
-	zoneReq := generated.ZoneCreateZoneRequest{
-		OrgId:        &orgID,
-		Name:         generated.PtrString("Production Environment"),
-		Mode:         generated.PtrString("live"),
-		TemplateName: generated.PtrString("standard-retail"),
-	}
-
-	zone, _, err := client.Zones.ZoneServiceCreateZone(ctx).Body(zoneReq).Execute()
+	// Use high-level SDK
+	zoneID, err := client.Zones.Create(ctx, orgID, "Production Environment", "live", "standard-retail")
 	if err != nil {
 		log.Fatalf("Failed to create zone: %v", err)
 	}
-	fmt.Printf("Zone created: %s (ID: %s)\n", *zone.Name, *zone.Id)
+	fmt.Printf("Zone created ID: %s\n", zoneID)
 
 	fmt.Println("\n--- Step 2: Activating Automation Bundle ---")
-	// We might have a set of flows that need to be enabled for this new zone
-	// For this example, we'll fetch flows and enable them in bulk
-
-	flows, _, err := client.Flows.FlowServiceListFlows(ctx).ZoneId(*zone.Id).Execute()
+	// Use high-level SDK
+	flows, err := client.Flows.List(ctx, zoneID)
 	if err != nil {
 		log.Printf("Warning: Could not list flows: %v", err)
-	} else if len(flows.Flows) > 0 {
+	} else if len(flows) > 0 {
 		var flowIDs []string
-		for _, f := range flows.Flows {
-			flowIDs = append(flowIDs, *f.Id)
+		for _, f := range flows {
+			if f.Id != "" {
+				flowIDs = append(flowIDs, f.Id)
+			}
 		}
 
-		bulkReq := generated.FlowBulkUpdateFlowsRequest{
-			FlowIds: flowIDs,
-			Enabled: generated.PtrBool(true),
-		}
-
-		_, _, err = client.Flows.FlowServiceBulkUpdateFlows(ctx).Body(bulkReq).Execute()
+		err = client.Flows.BulkUpdate(ctx, flowIDs, true)
 		if err != nil {
 			log.Printf("Failed to activate flows: %v", err)
 		} else {

@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/sapliy/fintech-sdk-go"
+	openapiclient "github.com/sapliy/fintech-sdk-go/generated"
 )
 
 func Test_generated_PaymentsAPIService(t *testing.T) {

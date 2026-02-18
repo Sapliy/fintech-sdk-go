@@ -348,6 +348,244 @@ paths:
       summary: Get Subscription details
       tags:
       - Billing
+  /v1/flows:
+    post:
+      operationId: createFlow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Flow"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Flow"
+          description: Created
+      security:
+      - ApiKeyAuth: []
+      summary: Create a Flow
+      tags:
+      - Flows
+  /v1/flows/{flowId}:
+    delete:
+      operationId: deleteFlow
+      parameters:
+      - explode: false
+        in: path
+        name: flowId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Deleted
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a Flow
+      tags:
+      - Flows
+    get:
+      operationId: getFlow
+      parameters:
+      - explode: false
+        in: path
+        name: flowId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Flow"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Flow details
+      tags:
+      - Flows
+    parameters:
+    - explode: false
+      in: path
+      name: flowId
+      required: true
+      schema:
+        type: string
+      style: simple
+    put:
+      operationId: updateFlow
+      parameters:
+      - explode: false
+        in: path
+        name: flowId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Flow"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Flow"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Update a Flow
+      tags:
+      - Flows
+  /v1/zones/{zoneId}/flows:
+    get:
+      operationId: listFlows
+      parameters:
+      - explode: false
+        in: path
+        name: zoneId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listFlows_200_response"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: List Flows in a Zone
+      tags:
+      - Flows
+  /v1/executions/{executionId}:
+    get:
+      operationId: getExecution
+      parameters:
+      - explode: false
+        in: path
+        name: executionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FlowExecution"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Execution details
+      tags:
+      - Executions
+  /v1/executions/{executionId}/resume:
+    post:
+      operationId: resumeExecution
+      parameters:
+      - explode: false
+        in: path
+        name: executionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties: {}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/resumeExecution_200_response"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Resume a paused Execution
+      tags:
+      - Executions
+  /v1/zones/{zoneId}/events/past:
+    get:
+      operationId: getPastEvents
+      parameters:
+      - explode: false
+        in: path
+        name: zoneId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getPastEvents_200_response"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Past Events (Webhook Replay)
+      tags:
+      - Events
+  /v1/events/{eventId}/replay:
+    post:
+      operationId: replayEvent
+      parameters:
+      - explode: false
+        in: path
+        name: eventId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/replayEvent_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/replayEvent_200_response"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Replay an Event
+      tags:
+      - Events
   /v1/auth/validate:
     post:
       operationId: validateKey
@@ -652,6 +890,206 @@ components:
       - id
       - plan_id
       - status
+    Flow:
+      example:
+        zone_id: zone_id
+        nodes:
+        - data: "{}"
+          id: id
+          position: "{}"
+          type: type
+        - data: "{}"
+          id: id
+          position: "{}"
+          type: type
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        org_id: org_id
+        name: name
+        edges:
+        - source_handle: source_handle
+          id: id
+          source: source
+          target: target
+        - source_handle: source_handle
+          id: id
+          source: source
+          target: target
+        description: description
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        trigger:
+          event_type: event_type
+          type: type
+          config: "{}"
+        version: 0
+        enabled: true
+      properties:
+        id:
+          type: string
+        org_id:
+          type: string
+        zone_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        version:
+          type: integer
+        trigger:
+          $ref: "#/components/schemas/Trigger"
+        nodes:
+          items:
+            $ref: "#/components/schemas/Node"
+          type: array
+        edges:
+          items:
+            $ref: "#/components/schemas/Edge"
+          type: array
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+      required:
+      - id
+      - name
+      - zone_id
+    Trigger:
+      example:
+        event_type: event_type
+        type: type
+        config: "{}"
+      properties:
+        type:
+          type: string
+        event_type:
+          type: string
+        config:
+          type: object
+      required:
+      - type
+    Node:
+      example:
+        data: "{}"
+        id: id
+        position: "{}"
+        type: type
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        position:
+          type: object
+        data:
+          type: object
+      required:
+      - id
+      - type
+    Edge:
+      example:
+        source_handle: source_handle
+        id: id
+        source: source
+        target: target
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        target:
+          type: string
+        source_handle:
+          type: string
+      required:
+      - id
+      - source
+      - target
+    FlowExecution:
+      example:
+        output: "{}"
+        input: "{}"
+        flow_id: flow_id
+        trigger_id: trigger_id
+        flow_version: 0
+        started_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        current_node_id: current_node_id
+        steps:
+        - output: "{}"
+          input: "{}"
+          error: error
+          node_id: node_id
+          status: status
+        - output: "{}"
+          input: "{}"
+          error: error
+          node_id: node_id
+          status: status
+        ended_at: 2000-01-23T04:56:07.000+00:00
+        status: pending
+      properties:
+        id:
+          type: string
+        flow_id:
+          type: string
+        flow_version:
+          type: integer
+        trigger_id:
+          type: string
+        status:
+          enum:
+          - pending
+          - running
+          - paused
+          - completed
+          - failed
+          type: string
+        current_node_id:
+          type: string
+        input:
+          type: object
+        output:
+          type: object
+        steps:
+          items:
+            $ref: "#/components/schemas/ExecutionStep"
+          type: array
+        started_at:
+          format: date-time
+          type: string
+        ended_at:
+          format: date-time
+          type: string
+      required:
+      - flow_id
+      - id
+      - status
+    ExecutionStep:
+      example:
+        output: "{}"
+        input: "{}"
+        error: error
+        node_id: node_id
+        status: status
+      properties:
+        node_id:
+          type: string
+        status:
+          type: string
+        input:
+          type: object
+        output:
+          type: object
+        error:
+          type: string
+      required:
+      - node_id
+      - status
     _v1_auth_register_post_request:
       properties:
         email:
@@ -788,6 +1226,119 @@ components:
         event_id:
           type: string
         status:
+          type: string
+    listFlows_200_response:
+      example:
+        flows:
+        - zone_id: zone_id
+          nodes:
+          - data: "{}"
+            id: id
+            position: "{}"
+            type: type
+          - data: "{}"
+            id: id
+            position: "{}"
+            type: type
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          org_id: org_id
+          name: name
+          edges:
+          - source_handle: source_handle
+            id: id
+            source: source
+            target: target
+          - source_handle: source_handle
+            id: id
+            source: source
+            target: target
+          description: description
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trigger:
+            event_type: event_type
+            type: type
+            config: "{}"
+          version: 0
+          enabled: true
+        - zone_id: zone_id
+          nodes:
+          - data: "{}"
+            id: id
+            position: "{}"
+            type: type
+          - data: "{}"
+            id: id
+            position: "{}"
+            type: type
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          org_id: org_id
+          name: name
+          edges:
+          - source_handle: source_handle
+            id: id
+            source: source
+            target: target
+          - source_handle: source_handle
+            id: id
+            source: source
+            target: target
+          description: description
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trigger:
+            event_type: event_type
+            type: type
+            config: "{}"
+          version: 0
+          enabled: true
+        count: 0
+      properties:
+        flows:
+          items:
+            $ref: "#/components/schemas/Flow"
+          type: array
+        count:
+          type: integer
+    resumeExecution_200_response:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+    getPastEvents_200_response:
+      example:
+        offset: 6
+        limit: 0
+        events:
+        - "{}"
+        - "{}"
+      properties:
+        events:
+          items:
+            type: object
+          type: array
+        limit:
+          type: integer
+        offset:
+          type: integer
+    replayEvent_request:
+      properties:
+        zoneId:
+          type: string
+      required:
+      - zoneId
+    replayEvent_200_response:
+      example:
+        eventId: eventId
+        originalId: originalId
+        message: message
+      properties:
+        message:
+          type: string
+        eventId:
+          type: string
+        originalId:
           type: string
     validateKey_request:
       properties:

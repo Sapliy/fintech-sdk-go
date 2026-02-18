@@ -1,0 +1,50 @@
+package fintech
+
+import (
+	"context"
+
+	"github.com/sapliy/fintech-sdk-go/generated"
+)
+
+// WalletsService manages user wallets and internal currency transfers.
+type WalletsService struct {
+	c *Client
+}
+
+func (s *WalletsService) Get(ctx context.Context, userID string, zoneID string) (*generated.Wallet, error) {
+	wallet, _, err := s.c.gen.WalletsAPI.GetWallet(ctx, userID).
+		XZoneID(zoneID).
+		Execute()
+	return wallet, err
+}
+
+func (s *WalletsService) Topup(ctx context.Context, zoneID string, amount int64, currency string, referenceID string) (string, error) {
+	res, _, err := s.c.gen.WalletsAPI.V1WalletsTopupPost(ctx).
+		// XZoneID(zoneID). // Not supported in generated client yet
+		V1WalletsTopupPostRequest(generated.V1WalletsTopupPostRequest{
+			Amount:      amount,
+			Currency:    currency,
+			ReferenceId: referenceID,
+		}).
+		Execute()
+	if err != nil {
+		return "", err
+	}
+	return res.GetTransactionId(), nil
+}
+
+func (s *WalletsService) Transfer(ctx context.Context, zoneID string, toUserID string, amount int64, currency string, referenceID string) (string, error) {
+	res, _, err := s.c.gen.WalletsAPI.V1WalletsTransferPost(ctx).
+		// XZoneID(zoneID). // Not supported in generated client yet
+		V1WalletsTransferPostRequest(generated.V1WalletsTransferPostRequest{
+			ToUserId:    toUserID,
+			Amount:      amount,
+			Currency:    currency,
+			ReferenceId: referenceID,
+		}).
+		Execute()
+	if err != nil {
+		return "", err
+	}
+	return res.GetTransactionId(), nil
+}

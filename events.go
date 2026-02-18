@@ -2,87 +2,50 @@ package fintech
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"time"
+
+	"github.com/sapliy/fintech-sdk-go/generated"
 )
 
-// EmitOption configures an Emit call
-type EmitOption func(*emitOptions)
-
-type emitOptions struct {
-	idempotencyKey string
-	source         string
-	env            string
+// EventsService provides high-level methods for emitting and replaying events.
+type EventsService struct {
+	c *Client
 }
 
-// WithIdempotencyKey sets a custom idempotency key
-func WithIdempotencyKey(key string) EmitOption {
-	return func(o *emitOptions) {
-		o.idempotencyKey = key
+func (s *EventsService) Emit(ctx context.Context, eventType string, data map[string]interface{}, idempotencyKey string) (string, error) {
+	req := generated.EmitEventRequest{
+		Type: eventType,
+		Data: data,
 	}
-}
-
-// WithSource sets the source metadata
-func WithSource(source string) EmitOption {
-	return func(o *emitOptions) {
-		o.source = source
-	}
-}
-
-// WithEnv sets the environment metadata
-func WithEnv(env string) EmitOption {
-	return func(o *emitOptions) {
-		o.env = env
-	}
-}
-
-type EventEmitResponse struct {
-	Status  string `json:"status"`
-	EventID string `json:"event_id,omitempty"`
-	Topic   string `json:"topic,omitempty"`
-	Message string `json:"message,omitempty"`
-}
-
-// Emit sends an event to the Sapliy Gateway
-func (c *Client) Emit(ctx context.Context, eventType string, data interface{}, opts ...EmitOption) (*EventEmitResponse, error) {
-	options := &emitOptions{
-		source: "sdk-go",
-		env:    "development", // Default, should be overridden or detected
-	}
-	for _, opt := range opts {
-		opt(options)
+	if idempotencyKey != "" {
+		req.IdempotencyKey = &idempotencyKey
 	}
 
-	// Auto-generate idempotency key if not provided
-	if options.idempotencyKey == "" {
-		payloadBytes, _ := json.Marshal(data)
-		hash := sha256.Sum256(payloadBytes)
-		options.idempotencyKey = fmt.Sprintf("%s-%x-%d", eventType, hash[:8], time.Now().UnixNano())
-	}
-
-	payload := map[string]interface{}{
-		"type": eventType,
-		"data": data,
-		"meta": map[string]string{
-			"source": options.source,
-			"env":    options.env,
-		},
-	}
-
-	req, err := c.newRequest(ctx, http.MethodPost, "/v1/events/emit", payload)
+	res, _, err := s.c.gen.EventsAPI.EmitEvent(ctx).
+		EmitEventRequest(req).
+		Execute()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	req.Header.Set("Idempotency-Key", options.idempotencyKey)
+	return res.GetEventId(), nil
+}
 
-	var res EventEmitResponse
-	if err := c.doRequest(req, &res); err != nil {
-		return nil, err
+func (s *EventsService) Replay(ctx context.Context, eventID string, zoneID string) (string, error) {
+	res, _, err := s.c.gen.EventsAPI.ReplayEvent(ctx, eventID).
+		ReplayEventRequest(generated.ReplayEventRequest{
+			ZoneId: zoneID,
+		}).
+		Execute()
+	if err != nil {
+		return "", err
 	}
+	return res.GetEventId(), nil
+}
 
-	return &res, nil
+func (s *EventsService) ListPast(ctx context.Context, zoneID string, limit int32, offset int32) (*generated.GetPastEvents200Response, error) {
+	res, _, err := s.c.gen.EventsAPI.GetPastEvents(ctx, zoneID).
+		Limit(limit).
+		Offset(offset).
+		Execute()
+	return res, err
 }
