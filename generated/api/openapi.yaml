@@ -1,2036 +1,750 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
-  title: proto/payments/payments.proto
-  version: version not set
+  contact:
+    email: support@sapliy.io
+    name: Sapliy Support
+    url: https://sapliy.io/support
+  description: "Official API for the Sapliy Fintech Ecosystem. Build robust financial\
+    \ applications with our type-safe, high-integrity platform."
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Sapliy Fintech API
+  version: 1.0.0
 servers:
-- url: /
-tags:
-- name: PaymentService
-- name: LedgerService
-- name: AuthService
-- name: FraudService
-- name: ZoneService
-- name: WalletService
-- name: ConnectService
-- name: NotificationService
-- name: BillingService
-- name: FlowService
+- description: Production API
+  url: https://api.sapliy.io
+- description: Local Development (Gateway)
+  url: http://localhost:8080
 paths:
-  /v1/auth/audit_logs:
-    get:
-      operationId: AuthService_GetAuditLogs
-      parameters:
-      - in: query
-        name: orgId
-        schema:
-          type: string
-      - in: query
-        name: limit
-        schema:
-          format: int32
-          type: integer
-      - in: query
-        name: offset
-        schema:
-          format: int32
-          type: integer
-      - in: query
-        name: action
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/authGetAuditLogsResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - AuthService
-  /v1/auth/sso/initiate:
+  /v1/auth/register:
     post:
-      operationId: AuthService_InitiateSSO
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/authInitiateSSORequest"
+              $ref: "#/components/schemas/_v1_auth_register_post_request"
         required: true
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/authInitiateSSOResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/_v1_auth_register_post_201_response"
+          description: Created
+      summary: Register a new user
       tags:
-      - AuthService
-      x-codegen-request-body-name: body
-  /v1/auth/sso/providers:
+      - Auth
+  /v1/auth/login:
     post:
-      operationId: AuthService_CreateSSOProvider
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/authCreateSSOProviderRequest"
+              $ref: "#/components/schemas/_v1_auth_register_post_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/authSSOProvider"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/_v1_auth_register_post_201_response"
+          description: OK
+      summary: Login
       tags:
-      - AuthService
-      x-codegen-request-body-name: body
-  /v1/auth/sso/providers/{id}:
-    get:
-      operationId: AuthService_GetSSOProvider
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/authSSOProvider"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - AuthService
-  /v1/auth/teams/members:
-    delete:
-      operationId: AuthService_RemoveTeamMember
-      parameters:
-      - in: query
-        name: orgId
-        schema:
-          type: string
-      - in: query
-        name: userId
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/authRemoveTeamMemberResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - AuthService
+      - Auth
+  /v1/payments:
     post:
-      operationId: AuthService_AddTeamMember
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/authAddTeamMemberRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/authMembership"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - AuthService
-      x-codegen-request-body-name: body
-  /v1/auth/teams/{orgId}/members:
-    get:
-      operationId: AuthService_ListTeamMembers
+      operationId: createPaymentIntent
       parameters:
-      - in: path
-        name: orgId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/authListTeamMembersResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - AuthService
-  /v1/auth/validate:
-    post:
-      operationId: AuthService_ValidateKey
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      - $ref: "#/components/parameters/ZoneModeHeader"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/authValidateKeyRequest"
+              $ref: "#/components/schemas/createPaymentIntent_request"
         required: true
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/authValidateKeyResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/PaymentIntent"
+          description: Created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - ApiKeyAuth: []
+      summary: Create a Payment Intent
       tags:
-      - AuthService
-      x-codegen-request-body-name: body
-  /v1/auth/validate_token:
-    post:
-      operationId: AuthService_ValidateToken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/authValidateTokenRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/authValidateTokenResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - AuthService
-      x-codegen-request-body-name: body
-  /v1/billing/subscriptions:
-    get:
-      operationId: BillingService_ListSubscriptions
-      parameters:
-      - in: query
-        name: userId
-        schema:
-          type: string
-      - in: query
-        name: orgId
-        schema:
-          type: string
-      - in: query
-        name: limit
-        schema:
-          format: int32
-          type: integer
-      - in: query
-        name: offset
-        schema:
-          format: int32
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/billingListSubscriptionsResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - BillingService
-    post:
-      operationId: BillingService_CreateSubscription
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/billingCreateSubscriptionRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/billingSubscription"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - BillingService
-      x-codegen-request-body-name: body
-  /v1/billing/subscriptions/{id}:
-    get:
-      operationId: BillingService_GetSubscription
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/billingSubscription"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - BillingService
-  /v1/billing/subscriptions/{id}/cancel:
-    post:
-      operationId: BillingService_CancelSubscription
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BillingServiceCancelSubscriptionBody"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/billingSubscription"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - BillingService
-      x-codegen-request-body-name: body
-  /v1/flows:
-    get:
-      operationId: FlowService_ListFlows
-      parameters:
-      - in: query
-        name: zoneId
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowListFlowsResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-    post:
-      operationId: FlowService_CreateFlow
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/flowCreateFlowRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowFlow"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-      x-codegen-request-body-name: body
-  /v1/flows/bulk-update:
-    post:
-      operationId: FlowService_BulkUpdateFlows
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/flowBulkUpdateFlowsRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowBulkUpdateFlowsResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-      x-codegen-request-body-name: body
-  /v1/flows/executions/{executionId}/resume:
-    post:
-      operationId: FlowService_ResumeExecution
-      parameters:
-      - in: path
-        name: executionId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FlowServiceResumeExecutionBody"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowResumeExecutionResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-      x-codegen-request-body-name: body
-  /v1/flows/executions/{id}:
-    get:
-      operationId: FlowService_GetExecution
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowFlowExecution"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-  /v1/flows/{id}:
-    get:
-      operationId: FlowService_GetFlow
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowFlow"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-    put:
-      operationId: FlowService_UpdateFlow
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FlowServiceUpdateFlowBody"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/flowFlow"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - FlowService
-      x-codegen-request-body-name: body
-  /v1/ledger/accounts:
-    post:
-      operationId: LedgerService_CreateAccount
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ledgerCreateAccountRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ledgerCreateAccountResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - LedgerService
-      x-codegen-request-body-name: body
-  /v1/ledger/accounts/{accountId}:
-    get:
-      operationId: LedgerService_GetAccount
-      parameters:
-      - in: path
-        name: accountId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ledgerGetAccountResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - LedgerService
-  /v1/ledger/bulk-transactions:
-    post:
-      operationId: LedgerService_BulkRecordTransactions
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ledgerBulkRecordRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ledgerBulkRecordResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - LedgerService
-      x-codegen-request-body-name: body
-  /v1/ledger/transactions:
-    post:
-      operationId: LedgerService_RecordTransaction
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ledgerRecordTransactionRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ledgerRecordTransactionResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - LedgerService
-      x-codegen-request-body-name: body
-  /v1/notifications:
-    get:
-      operationId: NotificationService_GetNotificationHistory
-      parameters:
-      - in: query
-        name: userId
-        schema:
-          type: string
-      - in: query
-        name: limit
-        schema:
-          format: int32
-          type: integer
-      - in: query
-        name: offset
-        schema:
-          format: int32
-          type: integer
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/notificationsGetNotificationHistoryResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - NotificationService
-  /v1/payments/intents:
-    post:
-      operationId: PaymentService_CreatePaymentIntent
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/paymentsCreatePaymentIntentRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/paymentsPaymentIntent"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - PaymentService
-      x-codegen-request-body-name: body
+      - Payments
   /v1/payments/intents/{id}/confirm:
     post:
-      operationId: PaymentService_ConfirmPaymentIntent
+      operationId: confirmPaymentIntent
       parameters:
-      - in: path
+      - explode: false
+        in: path
         name: id
         required: true
         schema:
           type: string
+        style: simple
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      - $ref: "#/components/parameters/ZoneModeHeader"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PaymentServiceConfirmPaymentIntentBody"
-        required: true
+              $ref: "#/components/schemas/confirmPaymentIntent_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/paymentsPaymentIntent"
-          description: A successful response.
-        default:
+                $ref: "#/components/schemas/PaymentIntent"
+          description: Confirmed
+      security:
+      - ApiKeyAuth: []
+      summary: Confirm a Payment Intent
+      tags:
+      - Payments
+  /v1/ledger/accounts:
+    post:
+      parameters:
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_v1_ledger_accounts_post_request"
+        required: true
+      responses:
+        "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/LedgerAccount"
+          description: Created
+      security:
+      - ApiKeyAuth: []
+      summary: Create Ledger Account
       tags:
-      - PaymentService
-      x-codegen-request-body-name: body
-  /v1/payments/intents/{id}/refund:
+      - Ledger
+  /v1/ledger/transactions:
     post:
-      operationId: PaymentService_RefundPaymentIntent
       parameters:
-      - in: path
-        name: id
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_v1_ledger_transactions_post_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_v1_ledger_transactions_post_201_response"
+          description: Recorded
+      security:
+      - ApiKeyAuth: []
+      summary: Record Transaction
+      tags:
+      - Ledger
+  /v1/wallets/{user_id}:
+    get:
+      operationId: getWallet
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
         required: true
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PaymentServiceRefundPaymentIntentBody"
-        required: true
+        style: simple
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      - $ref: "#/components/parameters/ZoneModeHeader"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/paymentsPaymentIntent"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/Wallet"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Wallet Balance
       tags:
-      - PaymentService
-      x-codegen-request-body-name: body
-  /v1/wallets:
+      - Wallets
+  /v1/wallets/topup:
     post:
-      operationId: WalletService_CreateWallet
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/walletCreateWalletRequest"
+              $ref: "#/components/schemas/_v1_wallets_topup_post_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/walletWallet"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/_v1_wallets_topup_post_200_response"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Top up a wallet
       tags:
-      - WalletService
-      x-codegen-request-body-name: body
-  /v1/wallets/top-up:
-    post:
-      operationId: WalletService_TopUp
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/walletTopUpRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/walletTransactionResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - WalletService
-      x-codegen-request-body-name: body
+      - Wallets
   /v1/wallets/transfer:
     post:
-      operationId: WalletService_Transfer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/walletTransferRequest"
+              $ref: "#/components/schemas/_v1_wallets_transfer_post_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/walletTransactionResponse"
-          description: A successful response.
-        default:
+                $ref: "#/components/schemas/_v1_wallets_topup_post_200_response"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Transfer between wallets
+      tags:
+      - Wallets
+  /v1/billing/subscriptions:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_v1_billing_subscriptions_post_request"
+        required: true
+      responses:
+        "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/Subscription"
+          description: Created
+      security:
+      - ApiKeyAuth: []
+      summary: Create Subscription
       tags:
-      - WalletService
-      x-codegen-request-body-name: body
-  /v1/wallets/{userId}:
+      - Billing
+  /v1/events/emit:
+    post:
+      operationId: emitEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/emitEvent_request"
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/emitEvent_202_response"
+          description: Accepted
+      security:
+      - ApiKeyAuth: []
+      summary: Emit an Event
+      tags:
+      - Events
+  /v1/ledger/accounts/{id}:
     get:
-      operationId: WalletService_GetWallet
+      operationId: getLedgerAccount
       parameters:
-      - in: path
-        name: userId
+      - explode: false
+        in: path
+        name: id
         required: true
         schema:
           type: string
+        style: simple
+      - $ref: "#/components/parameters/ZoneIdHeader"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/walletWallet"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/LedgerAccount"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Ledger Account details
       tags:
-      - WalletService
-  /v1/webhooks/endpoints:
+      - Ledger
+  /v1/ledger/transactions/{id}:
     get:
-      operationId: NotificationService_ListWebhookEndpoints
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/notificationsListWebhookEndpointsResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - NotificationService
-    post:
-      operationId: NotificationService_CreateWebhookEndpoint
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/notificationsCreateWebhookEndpointRequest"
+      operationId: getLedgerTransaction
+      parameters:
+      - explode: false
+        in: path
+        name: id
         required: true
+        schema:
+          type: string
+        style: simple
+      - $ref: "#/components/parameters/ZoneIdHeader"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/notificationsWebhookEndpoint"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/LedgerTransaction"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Ledger Transaction details
       tags:
-      - NotificationService
-      x-codegen-request-body-name: body
-  /v1/webhooks/endpoints/{id}:
+      - Ledger
+  /v1/billing/subscriptions/{id}:
     delete:
-      operationId: NotificationService_DeleteWebhookEndpoint
+      operationId: cancelSubscription
       parameters:
-      - in: path
+      - explode: false
+        in: path
         name: id
         required: true
         schema:
           type: string
+        style: simple
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/notificationsDeleteWebhookEndpointResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+        "204":
+          description: Canceled
+      security:
+      - ApiKeyAuth: []
+      summary: Cancel Subscription
       tags:
-      - NotificationService
-  /v1/zones:
+      - Billing
     get:
-      operationId: ZoneService_ListZones
+      operationId: getSubscription
       parameters:
-      - in: query
-        name: orgId
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/zoneListZonesResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - ZoneService
-    post:
-      operationId: ZoneService_CreateZone
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/zoneCreateZoneRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/zoneZone"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - ZoneService
-      x-codegen-request-body-name: body
-  /v1/zones/bulk-metadata:
-    post:
-      operationId: ZoneService_BulkUpdateMetadata
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/zoneBulkUpdateMetadataRequest"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/zoneBulkUpdateMetadataResponse"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - ZoneService
-      x-codegen-request-body-name: body
-  /v1/zones/{id}:
-    get:
-      operationId: ZoneService_GetZone
-      parameters:
-      - in: path
+      - explode: false
+        in: path
         name: id
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/zoneZone"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
+                $ref: "#/components/schemas/Subscription"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Subscription details
       tags:
-      - ZoneService
-    put:
-      operationId: ZoneService_UpdateZone
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ZoneServiceUpdateZoneBody"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/zoneZone"
-          description: A successful response.
-        default:
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/rpcStatus"
-          description: An unexpected error response.
-      tags:
-      - ZoneService
-      x-codegen-request-body-name: body
+      - Billing
 components:
+  parameters:
+    ZoneIdHeader:
+      description: The ID of the zone for this request.
+      explode: false
+      in: header
+      name: X-Zone-ID
+      required: true
+      schema:
+        type: string
+      style: simple
+    ZoneModeHeader:
+      description: The mode of the zone (live or test).
+      explode: false
+      in: header
+      name: X-Zone-Mode
+      required: false
+      schema:
+        enum:
+        - live
+        - test
+        type: string
+      style: simple
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: Invalid request parameters.
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: Authentication failed.
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: Resource not found.
+    InternalError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: Internal server error.
   schemas:
-    BillingServiceCancelSubscriptionBody:
-      type: object
-    FlowServiceResumeExecutionBody:
+    ErrorEnvelope:
       example:
-        overridesJson: overridesJson
+        error:
+          trace_id: trace_id
+          code: RATE_LIMIT_EXCEEDED
+          message: Rate limit exceeded. Retry after 60 seconds.
+          request_id: request_id
       properties:
-        overridesJson:
-          type: string
-      type: object
-    FlowServiceUpdateFlowBody:
+        error:
+          $ref: "#/components/schemas/ErrorEnvelope_error"
+    PaymentIntent:
       example:
-        nodesJson: nodesJson
-        edgesJson: edgesJson
-        name: name
-        enabled: true
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        nodesJson:
-          type: string
-        edgesJson:
-          type: string
-      type: object
-    PaymentServiceConfirmPaymentIntentBody:
-      example:
-        paymentMethodId: paymentMethodId
-      properties:
-        paymentMethodId:
-          type: string
-      type: object
-    PaymentServiceRefundPaymentIntentBody:
-      type: object
-    ZoneServiceUpdateZoneBody:
-      example:
+        amount: 2000
         metadata:
           key: metadata
-        name: name
-        status: status
+        description: description
+        created_at: 2000-01-23T04:56:07.000+00:00
+        currency: USD
+        id: pi_12345
+        client_secret: client_secret
+        status: requires_payment_method
       properties:
-        name:
+        id:
+          example: pi_12345
+          type: string
+        amount:
+          example: 2000
+          format: int64
+          type: integer
+        currency:
+          example: USD
           type: string
         status:
+          enum:
+          - requires_payment_method
+          - requires_confirmation
+          - requires_action
+          - processing
+          - requires_capture
+          - canceled
+          - succeeded
+          type: string
+        client_secret:
+          description: Used for client-side confirmation.
+          type: string
+        description:
           type: string
         metadata:
           additionalProperties:
             type: string
-          type: object
-      type: object
-    authAddTeamMemberRequest:
-      properties:
-        orgId:
+        created_at:
+          format: date-time
           type: string
-        userId:
-          type: string
-        role:
-          type: string
-      type: object
-    authAuditLog:
+      required:
+      - amount
+      - currency
+      - id
+      - status
+    Wallet:
       example:
-        createdAt: createdAt
-        resourceId: resourceId
-        metadata: metadata
-        ipAddress: ipAddress
-        action: action
+        balance: 0
+        user_id: user_id
+        currency: currency
         id: id
-        userId: userId
-        orgId: orgId
-        resourceType: resourceType
       properties:
         id:
           type: string
-        orgId:
+        user_id:
           type: string
-        userId:
+        balance:
+          format: int64
+          type: integer
+        currency:
           type: string
-        action:
-          type: string
-        resourceType:
-          type: string
-        resourceId:
-          type: string
-        metadata:
-          title: JSON string
-          type: string
-        ipAddress:
-          type: string
-        createdAt:
-          type: string
-      type: object
-    authCreateSSOProviderRequest:
+      required:
+      - balance
+      - currency
+      - id
+      - user_id
+    LedgerAccount:
+      example:
+        balance: 0
+        name: name
+        currency: currency
+        id: id
+        type: type
       properties:
-        orgId:
+        id:
           type: string
         name:
           type: string
-        providerType:
+        type:
           type: string
-        issuerUrl:
+        currency:
           type: string
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-      type: object
-    authGetAuditLogsResponse:
-      example:
-        totalCount: 0
-        logs:
-        - createdAt: createdAt
-          resourceId: resourceId
-          metadata: metadata
-          ipAddress: ipAddress
-          action: action
-          id: id
-          userId: userId
-          orgId: orgId
-          resourceType: resourceType
-        - createdAt: createdAt
-          resourceId: resourceId
-          metadata: metadata
-          ipAddress: ipAddress
-          action: action
-          id: id
-          userId: userId
-          orgId: orgId
-          resourceType: resourceType
-      properties:
-        logs:
-          items:
-            $ref: "#/components/schemas/authAuditLog"
-          type: array
-        totalCount:
-          format: int32
+        balance:
+          format: int64
           type: integer
-      type: object
-    authInitiateSSORequest:
+      required:
+      - currency
+      - id
+      - name
+      - type
+    LedgerTransaction:
+      example:
+        entries:
+        - amount: 0
+          account_id: account_id
+        - amount: 0
+          account_id: account_id
+        reference_id: reference_id
+        description: description
+        id: id
+        status: status
+      properties:
+        id:
+          type: string
+        reference_id:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        entries:
+          items:
+            $ref: "#/components/schemas/LedgerEntry"
+          type: array
+      required:
+      - id
+      - reference_id
+      - status
+    LedgerEntry:
+      example:
+        amount: 0
+        account_id: account_id
+      properties:
+        account_id:
+          type: string
+        amount:
+          format: int64
+          type: integer
+      required:
+      - account_id
+      - amount
+    User:
+      example:
+        email_verified: true
+        id: id
+        email: email
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        email_verified:
+          type: boolean
+      required:
+      - email
+      - id
+    Subscription:
+      example:
+        id: id
+        current_period_end: 2000-01-23T04:56:07.000+00:00
+        plan_id: plan_id
+        status: active
+      properties:
+        id:
+          type: string
+        status:
+          enum:
+          - active
+          - canceled
+          - past_due
+          - incomplete
+          type: string
+        plan_id:
+          type: string
+        current_period_end:
+          format: date-time
+          type: string
+      required:
+      - id
+      - plan_id
+      - status
+    _v1_auth_register_post_request:
       properties:
         email:
           type: string
-        redirectUri:
+        password:
           type: string
-      type: object
-    authInitiateSSOResponse:
+      required:
+      - email
+      - password
+    _v1_auth_register_post_201_response:
       example:
-        authUrl: authUrl
+        user:
+          email_verified: true
+          id: id
+          email: email
+        token: token
       properties:
-        authUrl:
+        token:
           type: string
-      type: object
-    authListTeamMembersResponse:
-      example:
-        memberships:
-        - createdAt: createdAt
-          role: role
-          userId: userId
-          orgId: orgId
-        - createdAt: createdAt
-          role: role
-          userId: userId
-          orgId: orgId
+        user:
+          $ref: "#/components/schemas/User"
+    createPaymentIntent_request:
       properties:
-        memberships:
-          items:
-            $ref: "#/components/schemas/authMembership"
-          type: array
-      type: object
-    authMembership:
-      example:
-        createdAt: createdAt
-        role: role
-        userId: userId
-        orgId: orgId
-      properties:
-        userId:
-          type: string
-        orgId:
-          type: string
-        role:
-          type: string
-        createdAt:
-          type: string
-      type: object
-    authRemoveTeamMemberResponse:
-      example:
-        success: true
-      properties:
-        success:
-          type: boolean
-      type: object
-    authSSOProvider:
-      example:
-        clientId: clientId
-        issuerUrl: issuerUrl
-        name: name
-        active: true
-        id: id
-        orgId: orgId
-        providerType: providerType
-      properties:
-        id:
-          type: string
-        orgId:
-          type: string
-        name:
-          type: string
-        providerType:
-          type: string
-        issuerUrl:
-          type: string
-        clientId:
-          type: string
-        active:
-          type: boolean
-      type: object
-    authValidateKeyRequest:
-      properties:
-        keyHash:
-          type: string
-      type: object
-    authValidateKeyResponse:
-      example:
-        valid: true
-        mode: mode
-        environment: environment
-        role: role
-        rateLimitQuota: 0
-        zoneId: zoneId
-        scopes: scopes
-        userId: userId
-        orgId: orgId
-      properties:
-        valid:
-          type: boolean
-        userId:
-          type: string
-        environment:
-          type: string
-        scopes:
-          type: string
-        orgId:
-          type: string
-        role:
-          type: string
-        rateLimitQuota:
-          format: int32
-          type: integer
-        zoneId:
-          type: string
-        mode:
-          type: string
-      type: object
-    authValidateTokenRequest:
-      properties:
-        accessToken:
-          type: string
-      type: object
-    authValidateTokenResponse:
-      example:
-        valid: true
-        clientId: clientId
-        scope: scope
-        userId: userId
-        expiresAt: expiresAt
-      properties:
-        valid:
-          type: boolean
-        clientId:
-          type: string
-        userId:
-          type: string
-        scope:
-          type: string
-        expiresAt:
+        amount:
           format: int64
-          type: string
-      type: object
-    billingCreateSubscriptionRequest:
-      properties:
-        userId:
-          type: string
-        orgId:
-          type: string
-        planId:
-          type: string
-      type: object
-    billingListSubscriptionsResponse:
-      example:
-        subscriptions:
-        - currentPeriodStart: 2000-01-23T04:56:07.000+00:00
-          createdAt: 2000-01-23T04:56:07.000+00:00
-          canceledAt: 2000-01-23T04:56:07.000+00:00
-          currentPeriodEnd: 2000-01-23T04:56:07.000+00:00
-          planId: planId
-          id: id
-          userId: userId
-          orgId: orgId
-          status: status
-        - currentPeriodStart: 2000-01-23T04:56:07.000+00:00
-          createdAt: 2000-01-23T04:56:07.000+00:00
-          canceledAt: 2000-01-23T04:56:07.000+00:00
-          currentPeriodEnd: 2000-01-23T04:56:07.000+00:00
-          planId: planId
-          id: id
-          userId: userId
-          orgId: orgId
-          status: status
-        totalCount: 0
-      properties:
-        subscriptions:
-          items:
-            $ref: "#/components/schemas/billingSubscription"
-          type: array
-        totalCount:
-          format: int32
           type: integer
-      type: object
-    billingSubscription:
-      example:
-        currentPeriodStart: 2000-01-23T04:56:07.000+00:00
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        canceledAt: 2000-01-23T04:56:07.000+00:00
-        currentPeriodEnd: 2000-01-23T04:56:07.000+00:00
-        planId: planId
-        id: id
-        userId: userId
-        orgId: orgId
-        status: status
-      properties:
-        id:
+        currency:
           type: string
-        userId:
+        description:
           type: string
-        orgId:
-          type: string
-        planId:
-          type: string
-        status:
-          type: string
-        currentPeriodStart:
-          format: date-time
-          type: string
-        currentPeriodEnd:
-          format: date-time
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        canceledAt:
-          format: date-time
-          type: string
-      type: object
-    flowBulkUpdateFlowsRequest:
-      properties:
-        flowIds:
-          items:
+        metadata:
+          additionalProperties:
             type: string
-          type: array
-        enabled:
-          type: boolean
-      type: object
-    flowBulkUpdateFlowsResponse:
-      example:
-        updatedCount: 0
+      required:
+      - amount
+      - currency
+    confirmPaymentIntent_request:
       properties:
-        updatedCount:
-          format: int32
-          type: integer
-      type: object
-    flowCreateFlowRequest:
-      properties:
-        zoneId:
+        payment_method_id:
           type: string
-        name:
-          type: string
-        nodesJson:
-          type: string
-        edgesJson:
-          type: string
-      type: object
-    flowExecutionStep:
-      example:
-        outputJson: outputJson
-        startedAt: 2000-01-23T04:56:07.000+00:00
-        inputJson: inputJson
-        error: error
-        nodeId: nodeId
-        status: status
-      properties:
-        nodeId:
-          type: string
-        status:
-          type: string
-        inputJson:
-          type: string
-        outputJson:
-          type: string
-        error:
-          type: string
-        startedAt:
-          format: date-time
-          type: string
-      type: object
-    flowFlow:
-      example:
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        nodesJson: nodesJson
-        edgesJson: edgesJson
-        name: name
-        zoneId: zoneId
-        id: id
-        enabled: true
-        updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        id:
-          type: string
-        zoneId:
-          type: string
-        name:
-          type: string
-        enabled:
-          type: boolean
-        nodesJson:
-          title: Simplified for dynamic nodes
-          type: string
-        edgesJson:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-      type: object
-    flowFlowExecution:
-      example:
-        metadataJson: metadataJson
-        currentNodeId: currentNodeId
-        startedAt: 2000-01-23T04:56:07.000+00:00
-        id: id
-        inputJson: inputJson
-        flowId: flowId
-        steps:
-        - outputJson: outputJson
-          startedAt: 2000-01-23T04:56:07.000+00:00
-          inputJson: inputJson
-          error: error
-          nodeId: nodeId
-          status: status
-        - outputJson: outputJson
-          startedAt: 2000-01-23T04:56:07.000+00:00
-          inputJson: inputJson
-          error: error
-          nodeId: nodeId
-          status: status
-        status: status
-        finishedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        id:
-          type: string
-        flowId:
-          type: string
-        status:
-          title: "\"running\", \"completed\", \"failed\", \"paused\""
-          type: string
-        currentNodeId:
-          type: string
-        inputJson:
-          type: string
-        metadataJson:
-          type: string
-        steps:
-          items:
-            $ref: "#/components/schemas/flowExecutionStep"
-          type: array
-        startedAt:
-          format: date-time
-          type: string
-        finishedAt:
-          format: date-time
-          type: string
-      type: object
-    flowListFlowsResponse:
-      example:
-        flows:
-        - createdAt: 2000-01-23T04:56:07.000+00:00
-          nodesJson: nodesJson
-          edgesJson: edgesJson
-          name: name
-          zoneId: zoneId
-          id: id
-          enabled: true
-          updatedAt: 2000-01-23T04:56:07.000+00:00
-        - createdAt: 2000-01-23T04:56:07.000+00:00
-          nodesJson: nodesJson
-          edgesJson: edgesJson
-          name: name
-          zoneId: zoneId
-          id: id
-          enabled: true
-          updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        flows:
-          items:
-            $ref: "#/components/schemas/flowFlow"
-          type: array
-      type: object
-    flowResumeExecutionResponse:
-      example:
-        status: status
-      properties:
-        status:
-          type: string
-      type: object
-    ledgerBulkRecordRequest:
-      properties:
-        transactions:
-          items:
-            $ref: "#/components/schemas/ledgerRecordTransactionRequest"
-          type: array
-      type: object
-    ledgerBulkRecordResponse:
-      example:
-        responses:
-        - transactionId: transactionId
-          status: status
-        - transactionId: transactionId
-          status: status
-      properties:
-        responses:
-          items:
-            $ref: "#/components/schemas/ledgerRecordTransactionResponse"
-          type: array
-      type: object
-    ledgerCreateAccountRequest:
+    _v1_ledger_accounts_post_request:
       properties:
         name:
           type: string
         type:
-          title: "e.g. \"asset\", \"liability\", \"revenue\", \"expense\""
           type: string
         currency:
           type: string
-        zoneId:
+        user_id:
           type: string
-        mode:
-          type: string
-      type: object
-    ledgerCreateAccountResponse:
-      example:
-        accountId: accountId
-        status: status
+      required:
+      - name
+      - type
+    _v1_ledger_transactions_post_request:
       properties:
-        accountId:
-          type: string
-        status:
-          type: string
-      type: object
-    ledgerGetAccountResponse:
-      example:
-        accountId: accountId
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        balance: balance
-        currency: currency
-      properties:
-        accountId:
-          type: string
-        balance:
-          format: int64
-          type: string
-        currency:
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-      type: object
-    ledgerRecordTransactionRequest:
-      properties:
-        accountId:
-          type: string
-        amount:
-          format: int64
-          title: In cents
-          type: string
-        currency:
+        reference_id:
           type: string
         description:
           type: string
-        referenceId:
-          title: e.g. PaymentIntent ID
-          type: string
-        zoneId:
-          type: string
-        mode:
-          type: string
-      type: object
-    ledgerRecordTransactionResponse:
+        entries:
+          items:
+            $ref: "#/components/schemas/LedgerEntry"
+          type: array
+      required:
+      - entries
+      - reference_id
+    _v1_ledger_transactions_post_201_response:
       example:
-        transactionId: transactionId
         status: status
       properties:
-        transactionId:
-          type: string
         status:
           type: string
-      type: object
-    notificationsCreateWebhookEndpointRequest:
-      properties:
-        url:
-          type: string
-        enabledEvents:
-          items:
-            type: string
-          type: array
-        description:
-          type: string
-      type: object
-    notificationsDeleteWebhookEndpointResponse:
-      example:
-        success: true
-      properties:
-        success:
-          type: boolean
-      type: object
-    notificationsGetNotificationHistoryResponse:
-      example:
-        notifications:
-        - createdAt: createdAt
-          recipient: recipient
-          channel: channel
-          id: id
-          sentAt: sentAt
-          title: title
-          userId: userId
-          content: content
-          status: status
-        - createdAt: createdAt
-          recipient: recipient
-          channel: channel
-          id: id
-          sentAt: sentAt
-          title: title
-          userId: userId
-          content: content
-          status: status
-      properties:
-        notifications:
-          items:
-            $ref: "#/components/schemas/notificationsNotification"
-          type: array
-      type: object
-    notificationsListWebhookEndpointsResponse:
-      example:
-        endpoints:
-        - createdAt: createdAt
-          enabledEvents:
-          - enabledEvents
-          - enabledEvents
-          id: id
-          secret: secret
-          url: url
-          status: status
-        - createdAt: createdAt
-          enabledEvents:
-          - enabledEvents
-          - enabledEvents
-          id: id
-          secret: secret
-          url: url
-          status: status
-      properties:
-        endpoints:
-          items:
-            $ref: "#/components/schemas/notificationsWebhookEndpoint"
-          type: array
-      type: object
-    notificationsNotification:
-      example:
-        createdAt: createdAt
-        recipient: recipient
-        channel: channel
-        id: id
-        sentAt: sentAt
-        title: title
-        userId: userId
-        content: content
-        status: status
-      properties:
-        id:
-          type: string
-        userId:
-          type: string
-        recipient:
-          type: string
-        channel:
-          type: string
-        title:
-          type: string
-        content:
-          type: string
-        status:
-          type: string
-        createdAt:
-          type: string
-        sentAt:
-          type: string
-      type: object
-    notificationsWebhookEndpoint:
-      example:
-        createdAt: createdAt
-        enabledEvents:
-        - enabledEvents
-        - enabledEvents
-        id: id
-        secret: secret
-        url: url
-        status: status
-      properties:
-        id:
-          type: string
-        url:
-          type: string
-        enabledEvents:
-          items:
-            type: string
-          type: array
-        secret:
-          type: string
-        status:
-          type: string
-        createdAt:
-          type: string
-      type: object
-    paymentsCreatePaymentIntentRequest:
+    _v1_wallets_topup_post_request:
       properties:
         amount:
           format: int64
-          type: string
+          type: integer
         currency:
           type: string
-        description:
+        reference_id:
           type: string
-        applicationFeeAmount:
-          format: int64
-          type: string
-        onBehalfOf:
-          type: string
-      type: object
-    paymentsPaymentIntent:
+      required:
+      - amount
+      - currency
+      - reference_id
+    _v1_wallets_topup_post_200_response:
       example:
-        createdAt: createdAt
-        amount: amount
-        applicationFeeAmount: applicationFeeAmount
-        onBehalfOf: onBehalfOf
-        description: description
-        currency: currency
-        id: id
-        userId: userId
+        transaction_id: transaction_id
         status: status
       properties:
-        id:
-          type: string
-        amount:
-          format: int64
-          type: string
-        currency:
+        transaction_id:
           type: string
         status:
           type: string
-        description:
-          type: string
-        userId:
-          type: string
-        applicationFeeAmount:
-          format: int64
-          type: string
-        onBehalfOf:
-          type: string
-        createdAt:
-          type: string
-      type: object
-    protobufAny:
-      additionalProperties:
-        type: object
-      example:
-        '@type': '@type'
+    _v1_wallets_transfer_post_request:
       properties:
-        '@type':
+        to_user_id:
           type: string
-      type: object
-    rpcStatus:
+        amount:
+          format: int64
+          type: integer
+        currency:
+          type: string
+        reference_id:
+          type: string
+      required:
+      - amount
+      - currency
+      - reference_id
+      - to_user_id
+    _v1_billing_subscriptions_post_request:
+      properties:
+        plan_id:
+          type: string
+        customer_id:
+          type: string
+      required:
+      - plan_id
+    emitEvent_request:
+      properties:
+        type:
+          type: string
+        data:
+          type: object
+        idempotency_key:
+          type: string
+      required:
+      - type
+    emitEvent_202_response:
       example:
-        code: 6
-        details:
-        - '@type': '@type'
-        - '@type': '@type'
-        message: message
+        event_id: event_id
+        status: status
+      properties:
+        event_id:
+          type: string
+        status:
+          type: string
+    ErrorEnvelope_error:
+      example:
+        trace_id: trace_id
+        code: RATE_LIMIT_EXCEEDED
+        message: Rate limit exceeded. Retry after 60 seconds.
+        request_id: request_id
       properties:
         code:
-          format: int32
-          type: integer
+          example: RATE_LIMIT_EXCEEDED
+          type: string
         message:
+          example: Rate limit exceeded. Retry after 60 seconds.
           type: string
-        details:
-          items:
-            $ref: "#/components/schemas/protobufAny"
-          type: array
-      type: object
-    walletCreateWalletRequest:
-      properties:
-        userId:
+        request_id:
           type: string
-        currency:
+        trace_id:
           type: string
-      type: object
-    walletTopUpRequest:
-      properties:
-        userId:
-          type: string
-        amount:
-          format: int64
-          type: string
-        currency:
-          type: string
-        referenceId:
-          type: string
-      type: object
-    walletTransactionResponse:
-      example:
-        transactionId: transactionId
-        status: status
-      properties:
-        transactionId:
-          type: string
-        status:
-          type: string
-      type: object
-    walletTransferRequest:
-      properties:
-        fromUserId:
-          type: string
-        toUserId:
-          type: string
-        amount:
-          format: int64
-          type: string
-        currency:
-          type: string
-        referenceId:
-          type: string
-      type: object
-    walletWallet:
-      example:
-        balance: balance
-        currency: currency
-        id: id
-        userId: userId
-      properties:
-        id:
-          type: string
-        userId:
-          type: string
-        balance:
-          format: int64
-          type: string
-        currency:
-          type: string
-      type: object
-    zoneBulkUpdateMetadataRequest:
-      properties:
-        zoneIds:
-          items:
-            type: string
-          type: array
-        metadata:
-          additionalProperties:
-            type: string
-          type: object
-      type: object
-    zoneBulkUpdateMetadataResponse:
-      example:
-        updatedCount: 0
-      properties:
-        updatedCount:
-          format: int32
-          type: integer
-      type: object
-    zoneCreateZoneRequest:
-      properties:
-        orgId:
-          type: string
-        name:
-          type: string
-        mode:
-          type: string
-        templateName:
-          type: string
-        metadata:
-          additionalProperties:
-            type: string
-          type: object
-      type: object
-    zoneListZonesResponse:
-      example:
-        zones:
-        - mode: mode
-          publishableKey: publishableKey
-          createdAt: createdAt
-          metadata:
-            key: metadata
-          secretKey: secretKey
-          templateName: templateName
-          name: name
-          id: id
-          orgId: orgId
-          status: status
-        - mode: mode
-          publishableKey: publishableKey
-          createdAt: createdAt
-          metadata:
-            key: metadata
-          secretKey: secretKey
-          templateName: templateName
-          name: name
-          id: id
-          orgId: orgId
-          status: status
-      properties:
-        zones:
-          items:
-            $ref: "#/components/schemas/zoneZone"
-          type: array
-      type: object
-    zoneZone:
-      example:
-        mode: mode
-        publishableKey: publishableKey
-        createdAt: createdAt
-        metadata:
-          key: metadata
-        secretKey: secretKey
-        templateName: templateName
-        name: name
-        id: id
-        orgId: orgId
-        status: status
-      properties:
-        id:
-          type: string
-        orgId:
-          type: string
-        name:
-          type: string
-        mode:
-          title: '"test" | "live"'
-          type: string
-        secretKey:
-          type: string
-        publishableKey:
-          type: string
-        status:
-          type: string
-        templateName:
-          type: string
-        metadata:
-          additionalProperties:
-            type: string
-          type: object
-        createdAt:
-          type: string
-      type: object
-x-original-swagger-version: "2.0"
+      required:
+      - code
+      - message
+  securitySchemes:
+    ApiKeyAuth:
+      description: Use your secret or publishable API key as a Bearer token.
+      scheme: bearer
+      type: http
+    CookieAuth:
+      description: Session token used for dashboard and frontend requests.
+      in: cookie
+      name: auth-token
+      type: apiKey
