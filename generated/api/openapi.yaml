@@ -348,6 +348,77 @@ paths:
       summary: Get Subscription details
       tags:
       - Billing
+  /v1/auth/validate:
+    post:
+      operationId: validateKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/validateKey_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/validateKey_200_response"
+          description: OK
+      summary: Validate an API key
+      tags:
+      - Auth
+  /v1/zones:
+    get:
+      operationId: listZones
+      parameters:
+      - explode: true
+        in: query
+        name: org_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/listZones_200_response_inner"
+                type: array
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: List or Get Zones
+      tags:
+      - Zones
+    post:
+      operationId: createZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createZone_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listZones_200_response_inner"
+          description: Created
+      security:
+      - ApiKeyAuth: []
+      summary: Create a Zone
+      tags:
+      - Zones
 components:
   parameters:
     ZoneIdHeader:
@@ -718,6 +789,66 @@ components:
           type: string
         status:
           type: string
+    validateKey_request:
+      properties:
+        key:
+          type: string
+      required:
+      - key
+    validateKey_200_response:
+      example:
+        valid: true
+        environment: environment
+        user_id: user_id
+        org_id: org_id
+        scopes:
+        - scopes
+        - scopes
+      properties:
+        valid:
+          type: boolean
+        user_id:
+          type: string
+        org_id:
+          type: string
+        environment:
+          type: string
+        scopes:
+          items:
+            type: string
+          type: array
+    listZones_200_response_inner:
+      example:
+        mode: mode
+        org_id: org_id
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        org_id:
+          type: string
+        name:
+          type: string
+        mode:
+          type: string
+    createZone_request:
+      properties:
+        org_id:
+          type: string
+        name:
+          type: string
+        mode:
+          enum:
+          - live
+          - test
+          type: string
+        template_name:
+          type: string
+      required:
+      - mode
+      - name
+      - org_id
     ErrorEnvelope_error:
       example:
         trace_id: trace_id
