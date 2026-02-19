@@ -27,15 +27,15 @@ type FlowsAPIService service
 type ApiCreateFlowRequest struct {
 	ctx context.Context
 	ApiService *FlowsAPIService
-	flow *Flow
+	automationFlow *AutomationFlow
 }
 
-func (r ApiCreateFlowRequest) Flow(flow Flow) ApiCreateFlowRequest {
-	r.flow = &flow
+func (r ApiCreateFlowRequest) AutomationFlow(automationFlow AutomationFlow) ApiCreateFlowRequest {
+	r.automationFlow = &automationFlow
 	return r
 }
 
-func (r ApiCreateFlowRequest) Execute() (*Flow, *http.Response, error) {
+func (r ApiCreateFlowRequest) Execute() (*AutomationFlow, *http.Response, error) {
 	return r.ApiService.CreateFlowExecute(r)
 }
 
@@ -53,13 +53,13 @@ func (a *FlowsAPIService) CreateFlow(ctx context.Context) ApiCreateFlowRequest {
 }
 
 // Execute executes the request
-//  @return Flow
-func (a *FlowsAPIService) CreateFlowExecute(r ApiCreateFlowRequest) (*Flow, *http.Response, error) {
+//  @return AutomationFlow
+func (a *FlowsAPIService) CreateFlowExecute(r ApiCreateFlowRequest) (*AutomationFlow, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Flow
+		localVarReturnValue  *AutomationFlow
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FlowsAPIService.CreateFlow")
@@ -72,8 +72,8 @@ func (a *FlowsAPIService) CreateFlowExecute(r ApiCreateFlowRequest) (*Flow, *htt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.flow == nil {
-		return localVarReturnValue, nil, reportError("flow is required and must be specified")
+	if r.automationFlow == nil {
+		return localVarReturnValue, nil, reportError("automationFlow is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -94,7 +94,7 @@ func (a *FlowsAPIService) CreateFlowExecute(r ApiCreateFlowRequest) (*Flow, *htt
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.flow
+	localVarPostBody = r.automationFlow
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -228,7 +228,7 @@ type ApiGetFlowRequest struct {
 	flowId string
 }
 
-func (r ApiGetFlowRequest) Execute() (*Flow, *http.Response, error) {
+func (r ApiGetFlowRequest) Execute() (*AutomationFlow, *http.Response, error) {
 	return r.ApiService.GetFlowExecute(r)
 }
 
@@ -248,13 +248,13 @@ func (a *FlowsAPIService) GetFlow(ctx context.Context, flowId string) ApiGetFlow
 }
 
 // Execute executes the request
-//  @return Flow
-func (a *FlowsAPIService) GetFlowExecute(r ApiGetFlowRequest) (*Flow, *http.Response, error) {
+//  @return AutomationFlow
+func (a *FlowsAPIService) GetFlowExecute(r ApiGetFlowRequest) (*AutomationFlow, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Flow
+		localVarReturnValue  *AutomationFlow
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FlowsAPIService.GetFlow")
@@ -428,15 +428,15 @@ type ApiUpdateFlowRequest struct {
 	ctx context.Context
 	ApiService *FlowsAPIService
 	flowId string
-	flow *Flow
+	automationFlow *AutomationFlow
 }
 
-func (r ApiUpdateFlowRequest) Flow(flow Flow) ApiUpdateFlowRequest {
-	r.flow = &flow
+func (r ApiUpdateFlowRequest) AutomationFlow(automationFlow AutomationFlow) ApiUpdateFlowRequest {
+	r.automationFlow = &automationFlow
 	return r
 }
 
-func (r ApiUpdateFlowRequest) Execute() (*Flow, *http.Response, error) {
+func (r ApiUpdateFlowRequest) Execute() (*AutomationFlow, *http.Response, error) {
 	return r.ApiService.UpdateFlowExecute(r)
 }
 
@@ -456,13 +456,13 @@ func (a *FlowsAPIService) UpdateFlow(ctx context.Context, flowId string) ApiUpda
 }
 
 // Execute executes the request
-//  @return Flow
-func (a *FlowsAPIService) UpdateFlowExecute(r ApiUpdateFlowRequest) (*Flow, *http.Response, error) {
+//  @return AutomationFlow
+func (a *FlowsAPIService) UpdateFlowExecute(r ApiUpdateFlowRequest) (*AutomationFlow, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Flow
+		localVarReturnValue  *AutomationFlow
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FlowsAPIService.UpdateFlow")
@@ -476,8 +476,8 @@ func (a *FlowsAPIService) UpdateFlowExecute(r ApiUpdateFlowRequest) (*Flow, *htt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.flow == nil {
-		return localVarReturnValue, nil, reportError("flow is required and must be specified")
+	if r.automationFlow == nil {
+		return localVarReturnValue, nil, reportError("automationFlow is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -498,7 +498,7 @@ func (a *FlowsAPIService) UpdateFlowExecute(r ApiUpdateFlowRequest) (*Flow, *htt
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.flow
+	localVarPostBody = r.automationFlow
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

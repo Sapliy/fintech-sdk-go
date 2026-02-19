@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Flows** | Pointer to [**[]Flow**](Flow.md) |  | [optional] 
+**Flows** | Pointer to [**[]AutomationFlow**](AutomationFlow.md) |  | [optional] 
 **Count** | Pointer to **int32** |  | [optional] 
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetFlows
 
-`func (o *ListFlows200Response) GetFlows() []Flow`
+`func (o *ListFlows200Response) GetFlows() []AutomationFlow`
 
 GetFlows returns the Flows field if non-nil, zero value otherwise.
 
 ### GetFlowsOk
 
-`func (o *ListFlows200Response) GetFlowsOk() (*[]Flow, bool)`
+`func (o *ListFlows200Response) GetFlowsOk() (*[]AutomationFlow, bool)`
 
 GetFlowsOk returns a tuple with the Flows field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFlows
 
-`func (o *ListFlows200Response) SetFlows(v []Flow)`
+`func (o *ListFlows200Response) SetFlows(v []AutomationFlow)`
 
 SetFlows sets Flows field to given value.
 

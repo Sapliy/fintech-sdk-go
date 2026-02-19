@@ -4,15 +4,15 @@ All URIs are relative to *https://api.sapliy.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**V1AuthLoginPost**](AuthAPI.md#V1AuthLoginPost) | **Post** /v1/auth/login | Login
-[**V1AuthRegisterPost**](AuthAPI.md#V1AuthRegisterPost) | **Post** /v1/auth/register | Register a new user
+[**LoginUser**](AuthAPI.md#LoginUser) | **Post** /v1/auth/login | Login
+[**RegisterUser**](AuthAPI.md#RegisterUser) | **Post** /v1/auth/register | Register a new user
 [**ValidateKey**](AuthAPI.md#ValidateKey) | **Post** /v1/auth/validate | Validate an API key
 
 
 
-## V1AuthLoginPost
+## LoginUser
 
-> V1AuthRegisterPost201Response V1AuthLoginPost(ctx).V1AuthRegisterPostRequest(v1AuthRegisterPostRequest).Execute()
+> RegisterUser201Response LoginUser(ctx).RegisterUserRequest(registerUserRequest).Execute()
 
 Login
 
@@ -29,17 +29,17 @@ import (
 )
 
 func main() {
-	v1AuthRegisterPostRequest := *openapiclient.NewV1AuthRegisterPostRequest("Email_example", "Password_example") // V1AuthRegisterPostRequest | 
+	registerUserRequest := *openapiclient.NewRegisterUserRequest("Email_example", "Password_example") // RegisterUserRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuthAPI.V1AuthLoginPost(context.Background()).V1AuthRegisterPostRequest(v1AuthRegisterPostRequest).Execute()
+	resp, r, err := apiClient.AuthAPI.LoginUser(context.Background()).RegisterUserRequest(registerUserRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.V1AuthLoginPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.LoginUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `V1AuthLoginPost`: V1AuthRegisterPost201Response
-	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.V1AuthLoginPost`: %v\n", resp)
+	// response from `LoginUser`: RegisterUser201Response
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.LoginUser`: %v\n", resp)
 }
 ```
 
@@ -49,16 +49,16 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1AuthLoginPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiLoginUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **v1AuthRegisterPostRequest** | [**V1AuthRegisterPostRequest**](V1AuthRegisterPostRequest.md) |  | 
+ **registerUserRequest** | [**RegisterUserRequest**](RegisterUserRequest.md) |  | 
 
 ### Return type
 
-[**V1AuthRegisterPost201Response**](V1AuthRegisterPost201Response.md)
+[**RegisterUser201Response**](RegisterUser201Response.md)
 
 ### Authorization
 
@@ -74,9 +74,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## V1AuthRegisterPost
+## RegisterUser
 
-> V1AuthRegisterPost201Response V1AuthRegisterPost(ctx).V1AuthRegisterPostRequest(v1AuthRegisterPostRequest).Execute()
+> RegisterUser201Response RegisterUser(ctx).RegisterUserRequest(registerUserRequest).Execute()
 
 Register a new user
 
@@ -93,17 +93,17 @@ import (
 )
 
 func main() {
-	v1AuthRegisterPostRequest := *openapiclient.NewV1AuthRegisterPostRequest("Email_example", "Password_example") // V1AuthRegisterPostRequest | 
+	registerUserRequest := *openapiclient.NewRegisterUserRequest("Email_example", "Password_example") // RegisterUserRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuthAPI.V1AuthRegisterPost(context.Background()).V1AuthRegisterPostRequest(v1AuthRegisterPostRequest).Execute()
+	resp, r, err := apiClient.AuthAPI.RegisterUser(context.Background()).RegisterUserRequest(registerUserRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.V1AuthRegisterPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.RegisterUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `V1AuthRegisterPost`: V1AuthRegisterPost201Response
-	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.V1AuthRegisterPost`: %v\n", resp)
+	// response from `RegisterUser`: RegisterUser201Response
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.RegisterUser`: %v\n", resp)
 }
 ```
 
@@ -113,16 +113,16 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1AuthRegisterPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiRegisterUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **v1AuthRegisterPostRequest** | [**V1AuthRegisterPostRequest**](V1AuthRegisterPostRequest.md) |  | 
+ **registerUserRequest** | [**RegisterUserRequest**](RegisterUserRequest.md) |  | 
 
 ### Return type
 
-[**V1AuthRegisterPost201Response**](V1AuthRegisterPost201Response.md)
+[**RegisterUser201Response**](RegisterUser201Response.md)
 
 ### Authorization
 

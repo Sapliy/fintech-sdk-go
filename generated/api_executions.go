@@ -30,7 +30,7 @@ type ApiGetExecutionRequest struct {
 	executionId string
 }
 
-func (r ApiGetExecutionRequest) Execute() (*FlowExecution, *http.Response, error) {
+func (r ApiGetExecutionRequest) Execute() (*AutomationFlowExecution, *http.Response, error) {
 	return r.ApiService.GetExecutionExecute(r)
 }
 
@@ -50,13 +50,13 @@ func (a *ExecutionsAPIService) GetExecution(ctx context.Context, executionId str
 }
 
 // Execute executes the request
-//  @return FlowExecution
-func (a *ExecutionsAPIService) GetExecutionExecute(r ApiGetExecutionRequest) (*FlowExecution, *http.Response, error) {
+//  @return AutomationFlowExecution
+func (a *ExecutionsAPIService) GetExecutionExecute(r ApiGetExecutionRequest) (*AutomationFlowExecution, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *FlowExecution
+		localVarReturnValue  *AutomationFlowExecution
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExecutionsAPIService.GetExecution")

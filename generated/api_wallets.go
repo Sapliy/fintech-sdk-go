@@ -146,45 +146,59 @@ func (a *WalletsAPIService) GetWalletExecute(r ApiGetWalletRequest) (*Wallet, *h
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiV1WalletsTopupPostRequest struct {
+type ApiTopupWalletRequest struct {
 	ctx context.Context
 	ApiService *WalletsAPIService
-	v1WalletsTopupPostRequest *V1WalletsTopupPostRequest
+	xZoneID *string
+	topupWalletRequest *TopupWalletRequest
+	xZoneMode *string
 }
 
-func (r ApiV1WalletsTopupPostRequest) V1WalletsTopupPostRequest(v1WalletsTopupPostRequest V1WalletsTopupPostRequest) ApiV1WalletsTopupPostRequest {
-	r.v1WalletsTopupPostRequest = &v1WalletsTopupPostRequest
+// The ID of the zone for this request.
+func (r ApiTopupWalletRequest) XZoneID(xZoneID string) ApiTopupWalletRequest {
+	r.xZoneID = &xZoneID
 	return r
 }
 
-func (r ApiV1WalletsTopupPostRequest) Execute() (*V1WalletsTopupPost200Response, *http.Response, error) {
-	return r.ApiService.V1WalletsTopupPostExecute(r)
+func (r ApiTopupWalletRequest) TopupWalletRequest(topupWalletRequest TopupWalletRequest) ApiTopupWalletRequest {
+	r.topupWalletRequest = &topupWalletRequest
+	return r
+}
+
+// The mode of the zone (live or test).
+func (r ApiTopupWalletRequest) XZoneMode(xZoneMode string) ApiTopupWalletRequest {
+	r.xZoneMode = &xZoneMode
+	return r
+}
+
+func (r ApiTopupWalletRequest) Execute() (*TopupWallet200Response, *http.Response, error) {
+	return r.ApiService.TopupWalletExecute(r)
 }
 
 /*
-V1WalletsTopupPost Top up a wallet
+TopupWallet Top up a wallet
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1WalletsTopupPostRequest
+ @return ApiTopupWalletRequest
 */
-func (a *WalletsAPIService) V1WalletsTopupPost(ctx context.Context) ApiV1WalletsTopupPostRequest {
-	return ApiV1WalletsTopupPostRequest{
+func (a *WalletsAPIService) TopupWallet(ctx context.Context) ApiTopupWalletRequest {
+	return ApiTopupWalletRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return V1WalletsTopupPost200Response
-func (a *WalletsAPIService) V1WalletsTopupPostExecute(r ApiV1WalletsTopupPostRequest) (*V1WalletsTopupPost200Response, *http.Response, error) {
+//  @return TopupWallet200Response
+func (a *WalletsAPIService) TopupWalletExecute(r ApiTopupWalletRequest) (*TopupWallet200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *V1WalletsTopupPost200Response
+		localVarReturnValue  *TopupWallet200Response
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WalletsAPIService.V1WalletsTopupPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WalletsAPIService.TopupWallet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -194,8 +208,11 @@ func (a *WalletsAPIService) V1WalletsTopupPostExecute(r ApiV1WalletsTopupPostReq
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.v1WalletsTopupPostRequest == nil {
-		return localVarReturnValue, nil, reportError("v1WalletsTopupPostRequest is required and must be specified")
+	if r.xZoneID == nil {
+		return localVarReturnValue, nil, reportError("xZoneID is required and must be specified")
+	}
+	if r.topupWalletRequest == nil {
+		return localVarReturnValue, nil, reportError("topupWalletRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -215,8 +232,12 @@ func (a *WalletsAPIService) V1WalletsTopupPostExecute(r ApiV1WalletsTopupPostReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Zone-ID", r.xZoneID, "simple", "")
+	if r.xZoneMode != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Zone-Mode", r.xZoneMode, "simple", "")
+	}
 	// body params
-	localVarPostBody = r.v1WalletsTopupPostRequest
+	localVarPostBody = r.topupWalletRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -254,45 +275,59 @@ func (a *WalletsAPIService) V1WalletsTopupPostExecute(r ApiV1WalletsTopupPostReq
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiV1WalletsTransferPostRequest struct {
+type ApiTransferWalletRequest struct {
 	ctx context.Context
 	ApiService *WalletsAPIService
-	v1WalletsTransferPostRequest *V1WalletsTransferPostRequest
+	xZoneID *string
+	transferWalletRequest *TransferWalletRequest
+	xZoneMode *string
 }
 
-func (r ApiV1WalletsTransferPostRequest) V1WalletsTransferPostRequest(v1WalletsTransferPostRequest V1WalletsTransferPostRequest) ApiV1WalletsTransferPostRequest {
-	r.v1WalletsTransferPostRequest = &v1WalletsTransferPostRequest
+// The ID of the zone for this request.
+func (r ApiTransferWalletRequest) XZoneID(xZoneID string) ApiTransferWalletRequest {
+	r.xZoneID = &xZoneID
 	return r
 }
 
-func (r ApiV1WalletsTransferPostRequest) Execute() (*V1WalletsTopupPost200Response, *http.Response, error) {
-	return r.ApiService.V1WalletsTransferPostExecute(r)
+func (r ApiTransferWalletRequest) TransferWalletRequest(transferWalletRequest TransferWalletRequest) ApiTransferWalletRequest {
+	r.transferWalletRequest = &transferWalletRequest
+	return r
+}
+
+// The mode of the zone (live or test).
+func (r ApiTransferWalletRequest) XZoneMode(xZoneMode string) ApiTransferWalletRequest {
+	r.xZoneMode = &xZoneMode
+	return r
+}
+
+func (r ApiTransferWalletRequest) Execute() (*TopupWallet200Response, *http.Response, error) {
+	return r.ApiService.TransferWalletExecute(r)
 }
 
 /*
-V1WalletsTransferPost Transfer between wallets
+TransferWallet Transfer between wallets
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1WalletsTransferPostRequest
+ @return ApiTransferWalletRequest
 */
-func (a *WalletsAPIService) V1WalletsTransferPost(ctx context.Context) ApiV1WalletsTransferPostRequest {
-	return ApiV1WalletsTransferPostRequest{
+func (a *WalletsAPIService) TransferWallet(ctx context.Context) ApiTransferWalletRequest {
+	return ApiTransferWalletRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return V1WalletsTopupPost200Response
-func (a *WalletsAPIService) V1WalletsTransferPostExecute(r ApiV1WalletsTransferPostRequest) (*V1WalletsTopupPost200Response, *http.Response, error) {
+//  @return TopupWallet200Response
+func (a *WalletsAPIService) TransferWalletExecute(r ApiTransferWalletRequest) (*TopupWallet200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *V1WalletsTopupPost200Response
+		localVarReturnValue  *TopupWallet200Response
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WalletsAPIService.V1WalletsTransferPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WalletsAPIService.TransferWallet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -302,8 +337,11 @@ func (a *WalletsAPIService) V1WalletsTransferPostExecute(r ApiV1WalletsTransferP
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.v1WalletsTransferPostRequest == nil {
-		return localVarReturnValue, nil, reportError("v1WalletsTransferPostRequest is required and must be specified")
+	if r.xZoneID == nil {
+		return localVarReturnValue, nil, reportError("xZoneID is required and must be specified")
+	}
+	if r.transferWalletRequest == nil {
+		return localVarReturnValue, nil, reportError("transferWalletRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -323,8 +361,12 @@ func (a *WalletsAPIService) V1WalletsTransferPostExecute(r ApiV1WalletsTransferP
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Zone-ID", r.xZoneID, "simple", "")
+	if r.xZoneMode != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Zone-Mode", r.xZoneMode, "simple", "")
+	}
 	// body params
-	localVarPostBody = r.v1WalletsTransferPostRequest
+	localVarPostBody = r.transferWalletRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

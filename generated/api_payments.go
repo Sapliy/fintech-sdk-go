@@ -292,3 +292,125 @@ func (a *PaymentsAPIService) CreatePaymentIntentExecute(r ApiCreatePaymentIntent
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+type ApiGetPaymentIntentRequest struct {
+	ctx context.Context
+	ApiService *PaymentsAPIService
+	id string
+	xZoneID *string
+	xZoneMode *string
+}
+
+// The ID of the zone for this request.
+func (r ApiGetPaymentIntentRequest) XZoneID(xZoneID string) ApiGetPaymentIntentRequest {
+	r.xZoneID = &xZoneID
+	return r
+}
+
+// The mode of the zone (live or test).
+func (r ApiGetPaymentIntentRequest) XZoneMode(xZoneMode string) ApiGetPaymentIntentRequest {
+	r.xZoneMode = &xZoneMode
+	return r
+}
+
+func (r ApiGetPaymentIntentRequest) Execute() (*PaymentIntent, *http.Response, error) {
+	return r.ApiService.GetPaymentIntentExecute(r)
+}
+
+/*
+GetPaymentIntent Get Payment Intent details
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id
+ @return ApiGetPaymentIntentRequest
+*/
+func (a *PaymentsAPIService) GetPaymentIntent(ctx context.Context, id string) ApiGetPaymentIntentRequest {
+	return ApiGetPaymentIntentRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+//  @return PaymentIntent
+func (a *PaymentsAPIService) GetPaymentIntentExecute(r ApiGetPaymentIntentRequest) (*PaymentIntent, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PaymentIntent
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PaymentsAPIService.GetPaymentIntent")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/payments/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xZoneID == nil {
+		return localVarReturnValue, nil, reportError("xZoneID is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Zone-ID", r.xZoneID, "simple", "")
+	if r.xZoneMode != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Zone-Mode", r.xZoneMode, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}

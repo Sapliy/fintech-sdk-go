@@ -34,4 +34,32 @@ func Test_generated_EventsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test EventsAPIService GetPastEvents", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var zoneId string
+
+		resp, httpRes, err := apiClient.EventsAPI.GetPastEvents(context.Background(), zoneId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test EventsAPIService ReplayEvent", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var eventId string
+
+		resp, httpRes, err := apiClient.EventsAPI.ReplayEvent(context.Background(), eventId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 }

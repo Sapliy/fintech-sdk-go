@@ -14,12 +14,9 @@ func main() {
 
 	fmt.Println("--- Payments Example ---")
 	zoneID := "zone_test_123"
-	payment, err := client.Payments.CreateIntent(ctx, &fintech.CreatePaymentRequest{
-		Amount:      5000,
-		Currency:    "USD",
-		Description: "Example Payment for Go SDK",
-		ZoneID:      zoneID,
-	})
+
+	// CreateIntent(ctx, zoneID, amount, currency, description, metadata)
+	payment, err := client.Payments.CreateIntent(ctx, zoneID, 5000, "USD", "Example Payment for Go SDK", nil)
 	if err != nil {
 		log.Fatalf("Error creating payment: %v", err)
 	}

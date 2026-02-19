@@ -20,7 +20,7 @@ var _ MappedNullable = &ListFlows200Response{}
 
 // ListFlows200Response struct for ListFlows200Response
 type ListFlows200Response struct {
-	Flows []Flow `json:"flows,omitempty"`
+	Flows []AutomationFlow `json:"flows,omitempty"`
 	Count *int32 `json:"count,omitempty"`
 }
 
@@ -42,9 +42,9 @@ func NewListFlows200ResponseWithDefaults() *ListFlows200Response {
 }
 
 // GetFlows returns the Flows field value if set, zero value otherwise.
-func (o *ListFlows200Response) GetFlows() []Flow {
+func (o *ListFlows200Response) GetFlows() []AutomationFlow {
 	if o == nil || IsNil(o.Flows) {
-		var ret []Flow
+		var ret []AutomationFlow
 		return ret
 	}
 	return o.Flows
@@ -52,7 +52,7 @@ func (o *ListFlows200Response) GetFlows() []Flow {
 
 // GetFlowsOk returns a tuple with the Flows field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListFlows200Response) GetFlowsOk() ([]Flow, bool) {
+func (o *ListFlows200Response) GetFlowsOk() ([]AutomationFlow, bool) {
 	if o == nil || IsNil(o.Flows) {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *ListFlows200Response) HasFlows() bool {
 	return false
 }
 
-// SetFlows gets a reference to the given []Flow and assigns it to the Flows field.
-func (o *ListFlows200Response) SetFlows(v []Flow) {
+// SetFlows gets a reference to the given []AutomationFlow and assigns it to the Flows field.
+func (o *ListFlows200Response) SetFlows(v []AutomationFlow) {
 	o.Flows = v
 }
 

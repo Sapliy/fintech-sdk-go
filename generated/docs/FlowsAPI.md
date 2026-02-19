@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 ## CreateFlow
 
-> Flow CreateFlow(ctx).Flow(flow).Execute()
+> AutomationFlow CreateFlow(ctx).AutomationFlow(automationFlow).Execute()
 
 Create a Flow
 
@@ -31,16 +31,16 @@ import (
 )
 
 func main() {
-	flow := *openapiclient.NewFlow("Id_example", "ZoneId_example", "Name_example") // Flow | 
+	automationFlow := *openapiclient.NewAutomationFlow("Id_example", "ZoneId_example", "Name_example") // AutomationFlow | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FlowsAPI.CreateFlow(context.Background()).Flow(flow).Execute()
+	resp, r, err := apiClient.FlowsAPI.CreateFlow(context.Background()).AutomationFlow(automationFlow).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FlowsAPI.CreateFlow``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateFlow`: Flow
+	// response from `CreateFlow`: AutomationFlow
 	fmt.Fprintf(os.Stdout, "Response from `FlowsAPI.CreateFlow`: %v\n", resp)
 }
 ```
@@ -56,11 +56,11 @@ Other parameters are passed through a pointer to a apiCreateFlowRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **flow** | [**Flow**](Flow.md) |  | 
+ **automationFlow** | [**AutomationFlow**](AutomationFlow.md) |  | 
 
 ### Return type
 
-[**Flow**](Flow.md)
+[**AutomationFlow**](AutomationFlow.md)
 
 ### Authorization
 
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
 
 ## GetFlow
 
-> Flow GetFlow(ctx, flowId).Execute()
+> AutomationFlow GetFlow(ctx, flowId).Execute()
 
 Get Flow details
 
@@ -170,7 +170,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FlowsAPI.GetFlow``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetFlow`: Flow
+	// response from `GetFlow`: AutomationFlow
 	fmt.Fprintf(os.Stdout, "Response from `FlowsAPI.GetFlow`: %v\n", resp)
 }
 ```
@@ -194,7 +194,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Flow**](Flow.md)
+[**AutomationFlow**](AutomationFlow.md)
 
 ### Authorization
 
@@ -280,7 +280,7 @@ Name | Type | Description  | Notes
 
 ## UpdateFlow
 
-> Flow UpdateFlow(ctx, flowId).Flow(flow).Execute()
+> AutomationFlow UpdateFlow(ctx, flowId).AutomationFlow(automationFlow).Execute()
 
 Update a Flow
 
@@ -298,16 +298,16 @@ import (
 
 func main() {
 	flowId := "flowId_example" // string | 
-	flow := *openapiclient.NewFlow("Id_example", "ZoneId_example", "Name_example") // Flow | 
+	automationFlow := *openapiclient.NewAutomationFlow("Id_example", "ZoneId_example", "Name_example") // AutomationFlow | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FlowsAPI.UpdateFlow(context.Background(), flowId).Flow(flow).Execute()
+	resp, r, err := apiClient.FlowsAPI.UpdateFlow(context.Background(), flowId).AutomationFlow(automationFlow).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FlowsAPI.UpdateFlow``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateFlow`: Flow
+	// response from `UpdateFlow`: AutomationFlow
 	fmt.Fprintf(os.Stdout, "Response from `FlowsAPI.UpdateFlow`: %v\n", resp)
 }
 ```
@@ -328,11 +328,11 @@ Other parameters are passed through a pointer to a apiUpdateFlowRequest struct v
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **flow** | [**Flow**](Flow.md) |  | 
+ **automationFlow** | [**AutomationFlow**](AutomationFlow.md) |  | 
 
 ### Return type
 
-[**Flow**](Flow.md)
+[**AutomationFlow**](AutomationFlow.md)
 
 ### Authorization
 

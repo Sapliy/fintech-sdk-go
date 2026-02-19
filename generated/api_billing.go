@@ -114,55 +114,60 @@ func (a *BillingAPIService) CancelSubscriptionExecute(r ApiCancelSubscriptionReq
 	return localVarHTTPResponse, nil
 }
 
-type ApiGetSubscriptionRequest struct {
+type ApiCreateSubscriptionRequest struct {
 	ctx context.Context
 	ApiService *BillingAPIService
-	id string
+	createSubscriptionRequest *CreateSubscriptionRequest
 }
 
-func (r ApiGetSubscriptionRequest) Execute() (*Subscription, *http.Response, error) {
-	return r.ApiService.GetSubscriptionExecute(r)
+func (r ApiCreateSubscriptionRequest) CreateSubscriptionRequest(createSubscriptionRequest CreateSubscriptionRequest) ApiCreateSubscriptionRequest {
+	r.createSubscriptionRequest = &createSubscriptionRequest
+	return r
+}
+
+func (r ApiCreateSubscriptionRequest) Execute() (*BillingSubscription, *http.Response, error) {
+	return r.ApiService.CreateSubscriptionExecute(r)
 }
 
 /*
-GetSubscription Get Subscription details
+CreateSubscription Create Subscription
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id
- @return ApiGetSubscriptionRequest
+ @return ApiCreateSubscriptionRequest
 */
-func (a *BillingAPIService) GetSubscription(ctx context.Context, id string) ApiGetSubscriptionRequest {
-	return ApiGetSubscriptionRequest{
+func (a *BillingAPIService) CreateSubscription(ctx context.Context) ApiCreateSubscriptionRequest {
+	return ApiCreateSubscriptionRequest{
 		ApiService: a,
 		ctx: ctx,
-		id: id,
 	}
 }
 
 // Execute executes the request
-//  @return Subscription
-func (a *BillingAPIService) GetSubscriptionExecute(r ApiGetSubscriptionRequest) (*Subscription, *http.Response, error) {
+//  @return BillingSubscription
+func (a *BillingAPIService) CreateSubscriptionExecute(r ApiCreateSubscriptionRequest) (*BillingSubscription, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Subscription
+		localVarReturnValue  *BillingSubscription
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BillingAPIService.GetSubscription")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BillingAPIService.CreateSubscription")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/billing/subscriptions/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+	localVarPath := localBasePath + "/v1/billing/subscriptions"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.createSubscriptionRequest == nil {
+		return localVarReturnValue, nil, reportError("createSubscriptionRequest is required and must be specified")
+	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -178,6 +183,8 @@ func (a *BillingAPIService) GetSubscriptionExecute(r ApiGetSubscriptionRequest) 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.createSubscriptionRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -215,60 +222,55 @@ func (a *BillingAPIService) GetSubscriptionExecute(r ApiGetSubscriptionRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiV1BillingSubscriptionsPostRequest struct {
+type ApiGetSubscriptionRequest struct {
 	ctx context.Context
 	ApiService *BillingAPIService
-	v1BillingSubscriptionsPostRequest *V1BillingSubscriptionsPostRequest
+	id string
 }
 
-func (r ApiV1BillingSubscriptionsPostRequest) V1BillingSubscriptionsPostRequest(v1BillingSubscriptionsPostRequest V1BillingSubscriptionsPostRequest) ApiV1BillingSubscriptionsPostRequest {
-	r.v1BillingSubscriptionsPostRequest = &v1BillingSubscriptionsPostRequest
-	return r
-}
-
-func (r ApiV1BillingSubscriptionsPostRequest) Execute() (*Subscription, *http.Response, error) {
-	return r.ApiService.V1BillingSubscriptionsPostExecute(r)
+func (r ApiGetSubscriptionRequest) Execute() (*BillingSubscription, *http.Response, error) {
+	return r.ApiService.GetSubscriptionExecute(r)
 }
 
 /*
-V1BillingSubscriptionsPost Create Subscription
+GetSubscription Get Subscription details
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1BillingSubscriptionsPostRequest
+ @param id
+ @return ApiGetSubscriptionRequest
 */
-func (a *BillingAPIService) V1BillingSubscriptionsPost(ctx context.Context) ApiV1BillingSubscriptionsPostRequest {
-	return ApiV1BillingSubscriptionsPostRequest{
+func (a *BillingAPIService) GetSubscription(ctx context.Context, id string) ApiGetSubscriptionRequest {
+	return ApiGetSubscriptionRequest{
 		ApiService: a,
 		ctx: ctx,
+		id: id,
 	}
 }
 
 // Execute executes the request
-//  @return Subscription
-func (a *BillingAPIService) V1BillingSubscriptionsPostExecute(r ApiV1BillingSubscriptionsPostRequest) (*Subscription, *http.Response, error) {
+//  @return BillingSubscription
+func (a *BillingAPIService) GetSubscriptionExecute(r ApiGetSubscriptionRequest) (*BillingSubscription, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Subscription
+		localVarReturnValue  *BillingSubscription
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BillingAPIService.V1BillingSubscriptionsPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BillingAPIService.GetSubscription")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/billing/subscriptions"
+	localVarPath := localBasePath + "/v1/billing/subscriptions/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.v1BillingSubscriptionsPostRequest == nil {
-		return localVarReturnValue, nil, reportError("v1BillingSubscriptionsPostRequest is required and must be specified")
-	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -284,8 +286,6 @@ func (a *BillingAPIService) V1BillingSubscriptionsPostExecute(r ApiV1BillingSubs
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	// body params
-	localVarPostBody = r.v1BillingSubscriptionsPostRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

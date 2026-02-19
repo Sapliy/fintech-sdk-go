@@ -35,13 +35,11 @@ func Test_generated_BillingAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test BillingAPIService GetSubscription", func(t *testing.T) {
+	t.Run("Test BillingAPIService CreateSubscription", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var id string
-
-		resp, httpRes, err := apiClient.BillingAPI.GetSubscription(context.Background(), id).Execute()
+		resp, httpRes, err := apiClient.BillingAPI.CreateSubscription(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -49,11 +47,13 @@ func Test_generated_BillingAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test BillingAPIService V1BillingSubscriptionsPost", func(t *testing.T) {
+	t.Run("Test BillingAPIService GetSubscription", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.BillingAPI.V1BillingSubscriptionsPost(context.Background()).Execute()
+		var id string
+
+		resp, httpRes, err := apiClient.BillingAPI.GetSubscription(context.Background(), id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

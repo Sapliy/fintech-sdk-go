@@ -22,7 +22,7 @@ func main() {
 	ctx := context.Background()
 
 	fmt.Println("--- Step 1: Provisioning Zone for Tenant ---")
-	// Use high-level SDK
+	// Zones.Create(ctx, orgID, name, mode, templateName) returns (zoneID string, err error)
 	zoneID, err := client.Zones.Create(ctx, orgID, "Production Environment", "live", "standard-retail")
 	if err != nil {
 		log.Fatalf("Failed to create zone: %v", err)
@@ -30,23 +30,14 @@ func main() {
 	fmt.Printf("Zone created ID: %s\n", zoneID)
 
 	fmt.Println("\n--- Step 2: Activating Automation Bundle ---")
-	// Use high-level SDK
+	// Flows.List(ctx, zoneID) returns ([]AutomationFlow, error)
 	flows, err := client.Flows.List(ctx, zoneID)
 	if err != nil {
 		log.Printf("Warning: Could not list flows: %v", err)
 	} else if len(flows) > 0 {
-		var flowIDs []string
+		fmt.Printf("Found %d flows for the new zone.\n", len(flows))
 		for _, f := range flows {
-			if f.Id != "" {
-				flowIDs = append(flowIDs, f.Id)
-			}
-		}
-
-		err = client.Flows.BulkUpdate(ctx, flowIDs, true)
-		if err != nil {
-			log.Printf("Failed to activate flows: %v", err)
-		} else {
-			fmt.Printf("Activated %d flows for the new zone.\n", len(flowIDs))
+			fmt.Printf("  - Flow: %s (%s)\n", f.GetName(), f.GetId())
 		}
 	}
 

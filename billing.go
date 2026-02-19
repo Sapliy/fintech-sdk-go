@@ -11,9 +11,9 @@ type BillingService struct {
 	c *Client
 }
 
-func (s *BillingService) CreateSubscription(ctx context.Context, planID string, customerID string) (*generated.Subscription, error) {
-	sub, _, err := s.c.gen.BillingAPI.V1BillingSubscriptionsPost(ctx).
-		V1BillingSubscriptionsPostRequest(generated.V1BillingSubscriptionsPostRequest{
+func (s *BillingService) CreateSubscription(ctx context.Context, planID string, customerID string) (*generated.BillingSubscription, error) {
+	sub, _, err := s.c.gen.BillingAPI.CreateSubscription(ctx).
+		CreateSubscriptionRequest(generated.CreateSubscriptionRequest{
 			PlanId:     planID,
 			CustomerId: &customerID,
 		}).
@@ -21,7 +21,7 @@ func (s *BillingService) CreateSubscription(ctx context.Context, planID string, 
 	return sub, err
 }
 
-func (s *BillingService) GetSubscription(ctx context.Context, id string) (*generated.Subscription, error) {
+func (s *BillingService) GetSubscription(ctx context.Context, id string) (*generated.BillingSubscription, error) {
 	sub, _, err := s.c.gen.BillingAPI.GetSubscription(ctx, id).
 		Execute()
 	return sub, err

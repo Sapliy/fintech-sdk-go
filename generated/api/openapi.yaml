@@ -19,36 +19,38 @@ servers:
 paths:
   /v1/auth/register:
     post:
+      operationId: registerUser
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/_v1_auth_register_post_request"
+              $ref: "#/components/schemas/registerUser_request"
         required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/_v1_auth_register_post_201_response"
+                $ref: "#/components/schemas/registerUser_201_response"
           description: Created
       summary: Register a new user
       tags:
       - Auth
   /v1/auth/login:
     post:
+      operationId: loginUser
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/_v1_auth_register_post_request"
+              $ref: "#/components/schemas/registerUser_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/_v1_auth_register_post_201_response"
+                $ref: "#/components/schemas/registerUser_201_response"
           description: OK
       summary: Login
       tags:
@@ -77,6 +79,31 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create a Payment Intent
+      tags:
+      - Payments
+  /v1/payments/{id}:
+    get:
+      operationId: getPaymentIntent
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      - $ref: "#/components/parameters/ZoneModeHeader"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentIntent"
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get Payment Intent details
       tags:
       - Payments
   /v1/payments/intents/{id}/confirm:
@@ -180,18 +207,22 @@ paths:
       - Wallets
   /v1/wallets/topup:
     post:
+      operationId: topupWallet
+      parameters:
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      - $ref: "#/components/parameters/ZoneModeHeader"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/_v1_wallets_topup_post_request"
+              $ref: "#/components/schemas/topupWallet_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/_v1_wallets_topup_post_200_response"
+                $ref: "#/components/schemas/topupWallet_200_response"
           description: OK
       security:
       - ApiKeyAuth: []
@@ -200,18 +231,22 @@ paths:
       - Wallets
   /v1/wallets/transfer:
     post:
+      operationId: transferWallet
+      parameters:
+      - $ref: "#/components/parameters/ZoneIdHeader"
+      - $ref: "#/components/parameters/ZoneModeHeader"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/_v1_wallets_transfer_post_request"
+              $ref: "#/components/schemas/transferWallet_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/_v1_wallets_topup_post_200_response"
+                $ref: "#/components/schemas/topupWallet_200_response"
           description: OK
       security:
       - ApiKeyAuth: []
@@ -220,18 +255,19 @@ paths:
       - Wallets
   /v1/billing/subscriptions:
     post:
+      operationId: createSubscription
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/_v1_billing_subscriptions_post_request"
+              $ref: "#/components/schemas/createSubscription_request"
         required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Subscription"
+                $ref: "#/components/schemas/BillingSubscription"
           description: Created
       security:
       - ApiKeyAuth: []
@@ -341,7 +377,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Subscription"
+                $ref: "#/components/schemas/BillingSubscription"
           description: OK
       security:
       - ApiKeyAuth: []
@@ -355,14 +391,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Flow"
+              $ref: "#/components/schemas/AutomationFlow"
         required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Flow"
+                $ref: "#/components/schemas/AutomationFlow"
           description: Created
       security:
       - ApiKeyAuth: []
@@ -403,7 +439,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Flow"
+                $ref: "#/components/schemas/AutomationFlow"
           description: OK
       security:
       - ApiKeyAuth: []
@@ -432,14 +468,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Flow"
+              $ref: "#/components/schemas/AutomationFlow"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Flow"
+                $ref: "#/components/schemas/AutomationFlow"
           description: OK
       security:
       - ApiKeyAuth: []
@@ -485,7 +521,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FlowExecution"
+                $ref: "#/components/schemas/AutomationFlowExecution"
           description: OK
       security:
       - ApiKeyAuth: []
@@ -865,7 +901,7 @@ components:
       required:
       - email
       - id
-    Subscription:
+    BillingSubscription:
       example:
         id: id
         current_period_end: 2000-01-23T04:56:07.000+00:00
@@ -890,7 +926,7 @@ components:
       - id
       - plan_id
       - status
-    Flow:
+    AutomationFlow:
       example:
         zone_id: zone_id
         nodes:
@@ -939,14 +975,14 @@ components:
         version:
           type: integer
         trigger:
-          $ref: "#/components/schemas/Trigger"
+          $ref: "#/components/schemas/AutomationFlowTrigger"
         nodes:
           items:
-            $ref: "#/components/schemas/Node"
+            $ref: "#/components/schemas/AutomationFlowNode"
           type: array
         edges:
           items:
-            $ref: "#/components/schemas/Edge"
+            $ref: "#/components/schemas/AutomationFlowEdge"
           type: array
         created_at:
           format: date-time
@@ -958,7 +994,7 @@ components:
       - id
       - name
       - zone_id
-    Trigger:
+    AutomationFlowTrigger:
       example:
         event_type: event_type
         type: type
@@ -972,7 +1008,7 @@ components:
           type: object
       required:
       - type
-    Node:
+    AutomationFlowNode:
       example:
         data: "{}"
         id: id
@@ -990,7 +1026,7 @@ components:
       required:
       - id
       - type
-    Edge:
+    AutomationFlowEdge:
       example:
         source_handle: source_handle
         id: id
@@ -1009,7 +1045,7 @@ components:
       - id
       - source
       - target
-    FlowExecution:
+    AutomationFlowExecution:
       example:
         output: "{}"
         input: "{}"
@@ -1057,7 +1093,7 @@ components:
           type: object
         steps:
           items:
-            $ref: "#/components/schemas/ExecutionStep"
+            $ref: "#/components/schemas/AutomationFlowExecutionStep"
           type: array
         started_at:
           format: date-time
@@ -1069,7 +1105,7 @@ components:
       - flow_id
       - id
       - status
-    ExecutionStep:
+    AutomationFlowExecutionStep:
       example:
         output: "{}"
         input: "{}"
@@ -1090,7 +1126,7 @@ components:
       required:
       - node_id
       - status
-    _v1_auth_register_post_request:
+    registerUser_request:
       properties:
         email:
           type: string
@@ -1099,7 +1135,7 @@ components:
       required:
       - email
       - password
-    _v1_auth_register_post_201_response:
+    registerUser_201_response:
       example:
         user:
           email_verified: true
@@ -1162,7 +1198,7 @@ components:
       properties:
         status:
           type: string
-    _v1_wallets_topup_post_request:
+    topupWallet_request:
       properties:
         amount:
           format: int64
@@ -1175,7 +1211,7 @@ components:
       - amount
       - currency
       - reference_id
-    _v1_wallets_topup_post_200_response:
+    topupWallet_200_response:
       example:
         transaction_id: transaction_id
         status: status
@@ -1184,7 +1220,7 @@ components:
           type: string
         status:
           type: string
-    _v1_wallets_transfer_post_request:
+    transferWallet_request:
       properties:
         to_user_id:
           type: string
@@ -1200,7 +1236,7 @@ components:
       - currency
       - reference_id
       - to_user_id
-    _v1_billing_subscriptions_post_request:
+    createSubscription_request:
       properties:
         plan_id:
           type: string
@@ -1296,7 +1332,7 @@ components:
       properties:
         flows:
           items:
-            $ref: "#/components/schemas/Flow"
+            $ref: "#/components/schemas/AutomationFlow"
           type: array
         count:
           type: integer

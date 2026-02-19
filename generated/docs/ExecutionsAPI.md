@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## GetExecution
 
-> FlowExecution GetExecution(ctx, executionId).Execute()
+> AutomationFlowExecution GetExecution(ctx, executionId).Execute()
 
 Get Execution details
 
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ExecutionsAPI.GetExecution``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetExecution`: FlowExecution
+	// response from `GetExecution`: AutomationFlowExecution
 	fmt.Fprintf(os.Stdout, "Response from `ExecutionsAPI.GetExecution`: %v\n", resp)
 }
 ```
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**FlowExecution**](FlowExecution.md)
+[**AutomationFlowExecution**](AutomationFlowExecution.md)
 
 ### Authorization
 

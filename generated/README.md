@@ -79,12 +79,12 @@ All URIs are relative to *https://api.sapliy.io*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthAPI* | [**V1AuthLoginPost**](docs/AuthAPI.md#v1authloginpost) | **Post** /v1/auth/login | Login
-*AuthAPI* | [**V1AuthRegisterPost**](docs/AuthAPI.md#v1authregisterpost) | **Post** /v1/auth/register | Register a new user
+*AuthAPI* | [**LoginUser**](docs/AuthAPI.md#loginuser) | **Post** /v1/auth/login | Login
+*AuthAPI* | [**RegisterUser**](docs/AuthAPI.md#registeruser) | **Post** /v1/auth/register | Register a new user
 *AuthAPI* | [**ValidateKey**](docs/AuthAPI.md#validatekey) | **Post** /v1/auth/validate | Validate an API key
 *BillingAPI* | [**CancelSubscription**](docs/BillingAPI.md#cancelsubscription) | **Delete** /v1/billing/subscriptions/{id} | Cancel Subscription
+*BillingAPI* | [**CreateSubscription**](docs/BillingAPI.md#createsubscription) | **Post** /v1/billing/subscriptions | Create Subscription
 *BillingAPI* | [**GetSubscription**](docs/BillingAPI.md#getsubscription) | **Get** /v1/billing/subscriptions/{id} | Get Subscription details
-*BillingAPI* | [**V1BillingSubscriptionsPost**](docs/BillingAPI.md#v1billingsubscriptionspost) | **Post** /v1/billing/subscriptions | Create Subscription
 *EventsAPI* | [**EmitEvent**](docs/EventsAPI.md#emitevent) | **Post** /v1/events/emit | Emit an Event
 *EventsAPI* | [**GetPastEvents**](docs/EventsAPI.md#getpastevents) | **Get** /v1/zones/{zoneId}/events/past | Get Past Events (Webhook Replay)
 *EventsAPI* | [**ReplayEvent**](docs/EventsAPI.md#replayevent) | **Post** /v1/events/{eventId}/replay | Replay an Event
@@ -101,49 +101,50 @@ Class | Method | HTTP request | Description
 *LedgerAPI* | [**V1LedgerTransactionsPost**](docs/LedgerAPI.md#v1ledgertransactionspost) | **Post** /v1/ledger/transactions | Record Transaction
 *PaymentsAPI* | [**ConfirmPaymentIntent**](docs/PaymentsAPI.md#confirmpaymentintent) | **Post** /v1/payments/intents/{id}/confirm | Confirm a Payment Intent
 *PaymentsAPI* | [**CreatePaymentIntent**](docs/PaymentsAPI.md#createpaymentintent) | **Post** /v1/payments | Create a Payment Intent
+*PaymentsAPI* | [**GetPaymentIntent**](docs/PaymentsAPI.md#getpaymentintent) | **Get** /v1/payments/{id} | Get Payment Intent details
 *WalletsAPI* | [**GetWallet**](docs/WalletsAPI.md#getwallet) | **Get** /v1/wallets/{user_id} | Get Wallet Balance
-*WalletsAPI* | [**V1WalletsTopupPost**](docs/WalletsAPI.md#v1walletstopuppost) | **Post** /v1/wallets/topup | Top up a wallet
-*WalletsAPI* | [**V1WalletsTransferPost**](docs/WalletsAPI.md#v1walletstransferpost) | **Post** /v1/wallets/transfer | Transfer between wallets
+*WalletsAPI* | [**TopupWallet**](docs/WalletsAPI.md#topupwallet) | **Post** /v1/wallets/topup | Top up a wallet
+*WalletsAPI* | [**TransferWallet**](docs/WalletsAPI.md#transferwallet) | **Post** /v1/wallets/transfer | Transfer between wallets
 *ZonesAPI* | [**CreateZone**](docs/ZonesAPI.md#createzone) | **Post** /v1/zones | Create a Zone
 *ZonesAPI* | [**ListZones**](docs/ZonesAPI.md#listzones) | **Get** /v1/zones | List or Get Zones
 
 
 ## Documentation For Models
 
+ - [AutomationFlow](docs/AutomationFlow.md)
+ - [AutomationFlowEdge](docs/AutomationFlowEdge.md)
+ - [AutomationFlowExecution](docs/AutomationFlowExecution.md)
+ - [AutomationFlowExecutionStep](docs/AutomationFlowExecutionStep.md)
+ - [AutomationFlowNode](docs/AutomationFlowNode.md)
+ - [AutomationFlowTrigger](docs/AutomationFlowTrigger.md)
+ - [BillingSubscription](docs/BillingSubscription.md)
  - [ConfirmPaymentIntentRequest](docs/ConfirmPaymentIntentRequest.md)
  - [CreatePaymentIntentRequest](docs/CreatePaymentIntentRequest.md)
+ - [CreateSubscriptionRequest](docs/CreateSubscriptionRequest.md)
  - [CreateZoneRequest](docs/CreateZoneRequest.md)
- - [Edge](docs/Edge.md)
  - [EmitEvent202Response](docs/EmitEvent202Response.md)
  - [EmitEventRequest](docs/EmitEventRequest.md)
  - [ErrorEnvelope](docs/ErrorEnvelope.md)
  - [ErrorEnvelopeError](docs/ErrorEnvelopeError.md)
- - [ExecutionStep](docs/ExecutionStep.md)
- - [Flow](docs/Flow.md)
- - [FlowExecution](docs/FlowExecution.md)
  - [GetPastEvents200Response](docs/GetPastEvents200Response.md)
  - [LedgerAccount](docs/LedgerAccount.md)
  - [LedgerEntry](docs/LedgerEntry.md)
  - [LedgerTransaction](docs/LedgerTransaction.md)
  - [ListFlows200Response](docs/ListFlows200Response.md)
  - [ListZones200ResponseInner](docs/ListZones200ResponseInner.md)
- - [Node](docs/Node.md)
  - [PaymentIntent](docs/PaymentIntent.md)
+ - [RegisterUser201Response](docs/RegisterUser201Response.md)
+ - [RegisterUserRequest](docs/RegisterUserRequest.md)
  - [ReplayEvent200Response](docs/ReplayEvent200Response.md)
  - [ReplayEventRequest](docs/ReplayEventRequest.md)
  - [ResumeExecution200Response](docs/ResumeExecution200Response.md)
- - [Subscription](docs/Subscription.md)
- - [Trigger](docs/Trigger.md)
+ - [TopupWallet200Response](docs/TopupWallet200Response.md)
+ - [TopupWalletRequest](docs/TopupWalletRequest.md)
+ - [TransferWalletRequest](docs/TransferWalletRequest.md)
  - [User](docs/User.md)
- - [V1AuthRegisterPost201Response](docs/V1AuthRegisterPost201Response.md)
- - [V1AuthRegisterPostRequest](docs/V1AuthRegisterPostRequest.md)
- - [V1BillingSubscriptionsPostRequest](docs/V1BillingSubscriptionsPostRequest.md)
  - [V1LedgerAccountsPostRequest](docs/V1LedgerAccountsPostRequest.md)
  - [V1LedgerTransactionsPost201Response](docs/V1LedgerTransactionsPost201Response.md)
  - [V1LedgerTransactionsPostRequest](docs/V1LedgerTransactionsPostRequest.md)
- - [V1WalletsTopupPost200Response](docs/V1WalletsTopupPost200Response.md)
- - [V1WalletsTopupPostRequest](docs/V1WalletsTopupPostRequest.md)
- - [V1WalletsTransferPostRequest](docs/V1WalletsTransferPostRequest.md)
  - [ValidateKey200Response](docs/ValidateKey200Response.md)
  - [ValidateKeyRequest](docs/ValidateKeyRequest.md)
  - [Wallet](docs/Wallet.md)

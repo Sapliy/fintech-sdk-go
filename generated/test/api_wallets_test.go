@@ -36,11 +36,11 @@ func Test_generated_WalletsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test WalletsAPIService V1WalletsTopupPost", func(t *testing.T) {
+	t.Run("Test WalletsAPIService TopupWallet", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.WalletsAPI.V1WalletsTopupPost(context.Background()).Execute()
+		resp, httpRes, err := apiClient.WalletsAPI.TopupWallet(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +48,11 @@ func Test_generated_WalletsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test WalletsAPIService V1WalletsTransferPost", func(t *testing.T) {
+	t.Run("Test WalletsAPIService TransferWallet", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.WalletsAPI.V1WalletsTransferPost(context.Background()).Execute()
+		resp, httpRes, err := apiClient.WalletsAPI.TransferWallet(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

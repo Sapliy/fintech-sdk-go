@@ -23,45 +23,45 @@ import (
 // AuthAPIService AuthAPI service
 type AuthAPIService service
 
-type ApiV1AuthLoginPostRequest struct {
+type ApiLoginUserRequest struct {
 	ctx context.Context
 	ApiService *AuthAPIService
-	v1AuthRegisterPostRequest *V1AuthRegisterPostRequest
+	registerUserRequest *RegisterUserRequest
 }
 
-func (r ApiV1AuthLoginPostRequest) V1AuthRegisterPostRequest(v1AuthRegisterPostRequest V1AuthRegisterPostRequest) ApiV1AuthLoginPostRequest {
-	r.v1AuthRegisterPostRequest = &v1AuthRegisterPostRequest
+func (r ApiLoginUserRequest) RegisterUserRequest(registerUserRequest RegisterUserRequest) ApiLoginUserRequest {
+	r.registerUserRequest = &registerUserRequest
 	return r
 }
 
-func (r ApiV1AuthLoginPostRequest) Execute() (*V1AuthRegisterPost201Response, *http.Response, error) {
-	return r.ApiService.V1AuthLoginPostExecute(r)
+func (r ApiLoginUserRequest) Execute() (*RegisterUser201Response, *http.Response, error) {
+	return r.ApiService.LoginUserExecute(r)
 }
 
 /*
-V1AuthLoginPost Login
+LoginUser Login
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1AuthLoginPostRequest
+ @return ApiLoginUserRequest
 */
-func (a *AuthAPIService) V1AuthLoginPost(ctx context.Context) ApiV1AuthLoginPostRequest {
-	return ApiV1AuthLoginPostRequest{
+func (a *AuthAPIService) LoginUser(ctx context.Context) ApiLoginUserRequest {
+	return ApiLoginUserRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return V1AuthRegisterPost201Response
-func (a *AuthAPIService) V1AuthLoginPostExecute(r ApiV1AuthLoginPostRequest) (*V1AuthRegisterPost201Response, *http.Response, error) {
+//  @return RegisterUser201Response
+func (a *AuthAPIService) LoginUserExecute(r ApiLoginUserRequest) (*RegisterUser201Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *V1AuthRegisterPost201Response
+		localVarReturnValue  *RegisterUser201Response
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.V1AuthLoginPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.LoginUser")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -71,8 +71,8 @@ func (a *AuthAPIService) V1AuthLoginPostExecute(r ApiV1AuthLoginPostRequest) (*V
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.v1AuthRegisterPostRequest == nil {
-		return localVarReturnValue, nil, reportError("v1AuthRegisterPostRequest is required and must be specified")
+	if r.registerUserRequest == nil {
+		return localVarReturnValue, nil, reportError("registerUserRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -93,7 +93,7 @@ func (a *AuthAPIService) V1AuthLoginPostExecute(r ApiV1AuthLoginPostRequest) (*V
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.v1AuthRegisterPostRequest
+	localVarPostBody = r.registerUserRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -131,45 +131,45 @@ func (a *AuthAPIService) V1AuthLoginPostExecute(r ApiV1AuthLoginPostRequest) (*V
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiV1AuthRegisterPostRequest struct {
+type ApiRegisterUserRequest struct {
 	ctx context.Context
 	ApiService *AuthAPIService
-	v1AuthRegisterPostRequest *V1AuthRegisterPostRequest
+	registerUserRequest *RegisterUserRequest
 }
 
-func (r ApiV1AuthRegisterPostRequest) V1AuthRegisterPostRequest(v1AuthRegisterPostRequest V1AuthRegisterPostRequest) ApiV1AuthRegisterPostRequest {
-	r.v1AuthRegisterPostRequest = &v1AuthRegisterPostRequest
+func (r ApiRegisterUserRequest) RegisterUserRequest(registerUserRequest RegisterUserRequest) ApiRegisterUserRequest {
+	r.registerUserRequest = &registerUserRequest
 	return r
 }
 
-func (r ApiV1AuthRegisterPostRequest) Execute() (*V1AuthRegisterPost201Response, *http.Response, error) {
-	return r.ApiService.V1AuthRegisterPostExecute(r)
+func (r ApiRegisterUserRequest) Execute() (*RegisterUser201Response, *http.Response, error) {
+	return r.ApiService.RegisterUserExecute(r)
 }
 
 /*
-V1AuthRegisterPost Register a new user
+RegisterUser Register a new user
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1AuthRegisterPostRequest
+ @return ApiRegisterUserRequest
 */
-func (a *AuthAPIService) V1AuthRegisterPost(ctx context.Context) ApiV1AuthRegisterPostRequest {
-	return ApiV1AuthRegisterPostRequest{
+func (a *AuthAPIService) RegisterUser(ctx context.Context) ApiRegisterUserRequest {
+	return ApiRegisterUserRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return V1AuthRegisterPost201Response
-func (a *AuthAPIService) V1AuthRegisterPostExecute(r ApiV1AuthRegisterPostRequest) (*V1AuthRegisterPost201Response, *http.Response, error) {
+//  @return RegisterUser201Response
+func (a *AuthAPIService) RegisterUserExecute(r ApiRegisterUserRequest) (*RegisterUser201Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *V1AuthRegisterPost201Response
+		localVarReturnValue  *RegisterUser201Response
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.V1AuthRegisterPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.RegisterUser")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -179,8 +179,8 @@ func (a *AuthAPIService) V1AuthRegisterPostExecute(r ApiV1AuthRegisterPostReques
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.v1AuthRegisterPostRequest == nil {
-		return localVarReturnValue, nil, reportError("v1AuthRegisterPostRequest is required and must be specified")
+	if r.registerUserRequest == nil {
+		return localVarReturnValue, nil, reportError("registerUserRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -201,7 +201,7 @@ func (a *AuthAPIService) V1AuthRegisterPostExecute(r ApiV1AuthRegisterPostReques
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.v1AuthRegisterPostRequest
+	localVarPostBody = r.registerUserRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

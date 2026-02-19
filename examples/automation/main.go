@@ -14,8 +14,7 @@ func main() {
 	client := fintech.NewClient("sk_test_51...your_key", fintech.WithBaseURL("http://localhost:8080"))
 
 	// 1. Create a Zone for this example
-	// Using wrapper method: Create(ctx, orgID, name, mode, templateName)
-	// We'll use a dummy orgID for the example
+	// Zones.Create(ctx, orgID, name, mode, templateName) returns (zoneID string, err error)
 	zoneID, err := client.Zones.Create(context.Background(), "org_demo", "Automation-Test", "test", "standard")
 	if err != nil {
 		log.Fatalf("Failed to create zone: %v", err)
@@ -23,11 +22,8 @@ func main() {
 	fmt.Printf("Created Zone: %s\n", zoneID)
 
 	// 2. Create a Payment Intent (this will trigger a Kafka event)
-	intent, err := client.Payments.CreateIntent(context.Background(), &fintech.CreatePaymentRequest{
-		Amount:   15000,
-		Currency: "USD",
-		ZoneID:   zoneID,
-	})
+	// CreateIntent(ctx, zoneID, amount, currency, description, metadata)
+	intent, err := client.Payments.CreateIntent(context.Background(), zoneID, 15000, "USD", "Automation demo", nil)
 	if err != nil {
 		log.Fatalf("Failed to create intent: %v", err)
 	}

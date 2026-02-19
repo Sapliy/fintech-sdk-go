@@ -19,9 +19,9 @@ func (s *WalletsService) Get(ctx context.Context, userID string, zoneID string) 
 }
 
 func (s *WalletsService) Topup(ctx context.Context, zoneID string, amount int64, currency string, referenceID string) (string, error) {
-	res, _, err := s.c.gen.WalletsAPI.V1WalletsTopupPost(ctx).
-		// XZoneID(zoneID). // Not supported in generated client yet
-		V1WalletsTopupPostRequest(generated.V1WalletsTopupPostRequest{
+	res, _, err := s.c.gen.WalletsAPI.TopupWallet(ctx).
+		XZoneID(zoneID).
+		TopupWalletRequest(generated.TopupWalletRequest{
 			Amount:      amount,
 			Currency:    currency,
 			ReferenceId: referenceID,
@@ -34,9 +34,9 @@ func (s *WalletsService) Topup(ctx context.Context, zoneID string, amount int64,
 }
 
 func (s *WalletsService) Transfer(ctx context.Context, zoneID string, toUserID string, amount int64, currency string, referenceID string) (string, error) {
-	res, _, err := s.c.gen.WalletsAPI.V1WalletsTransferPost(ctx).
-		// XZoneID(zoneID). // Not supported in generated client yet
-		V1WalletsTransferPostRequest(generated.V1WalletsTransferPostRequest{
+	res, _, err := s.c.gen.WalletsAPI.TransferWallet(ctx).
+		XZoneID(zoneID).
+		TransferWalletRequest(generated.TransferWalletRequest{
 			ToUserId:    toUserID,
 			Amount:      amount,
 			Currency:    currency,

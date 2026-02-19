@@ -5,8 +5,8 @@ All URIs are relative to *https://api.sapliy.io*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetWallet**](WalletsAPI.md#GetWallet) | **Get** /v1/wallets/{user_id} | Get Wallet Balance
-[**V1WalletsTopupPost**](WalletsAPI.md#V1WalletsTopupPost) | **Post** /v1/wallets/topup | Top up a wallet
-[**V1WalletsTransferPost**](WalletsAPI.md#V1WalletsTransferPost) | **Post** /v1/wallets/transfer | Transfer between wallets
+[**TopupWallet**](WalletsAPI.md#TopupWallet) | **Post** /v1/wallets/topup | Top up a wallet
+[**TransferWallet**](WalletsAPI.md#TransferWallet) | **Post** /v1/wallets/transfer | Transfer between wallets
 
 
 
@@ -82,9 +82,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## V1WalletsTopupPost
+## TopupWallet
 
-> V1WalletsTopupPost200Response V1WalletsTopupPost(ctx).V1WalletsTopupPostRequest(v1WalletsTopupPostRequest).Execute()
+> TopupWallet200Response TopupWallet(ctx).XZoneID(xZoneID).TopupWalletRequest(topupWalletRequest).XZoneMode(xZoneMode).Execute()
 
 Top up a wallet
 
@@ -101,17 +101,19 @@ import (
 )
 
 func main() {
-	v1WalletsTopupPostRequest := *openapiclient.NewV1WalletsTopupPostRequest(int64(123), "Currency_example", "ReferenceId_example") // V1WalletsTopupPostRequest | 
+	xZoneID := "xZoneID_example" // string | The ID of the zone for this request.
+	topupWalletRequest := *openapiclient.NewTopupWalletRequest(int64(123), "Currency_example", "ReferenceId_example") // TopupWalletRequest | 
+	xZoneMode := "xZoneMode_example" // string | The mode of the zone (live or test). (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WalletsAPI.V1WalletsTopupPost(context.Background()).V1WalletsTopupPostRequest(v1WalletsTopupPostRequest).Execute()
+	resp, r, err := apiClient.WalletsAPI.TopupWallet(context.Background()).XZoneID(xZoneID).TopupWalletRequest(topupWalletRequest).XZoneMode(xZoneMode).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `WalletsAPI.V1WalletsTopupPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `WalletsAPI.TopupWallet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `V1WalletsTopupPost`: V1WalletsTopupPost200Response
-	fmt.Fprintf(os.Stdout, "Response from `WalletsAPI.V1WalletsTopupPost`: %v\n", resp)
+	// response from `TopupWallet`: TopupWallet200Response
+	fmt.Fprintf(os.Stdout, "Response from `WalletsAPI.TopupWallet`: %v\n", resp)
 }
 ```
 
@@ -121,16 +123,18 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1WalletsTopupPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiTopupWalletRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **v1WalletsTopupPostRequest** | [**V1WalletsTopupPostRequest**](V1WalletsTopupPostRequest.md) |  | 
+ **xZoneID** | **string** | The ID of the zone for this request. | 
+ **topupWalletRequest** | [**TopupWalletRequest**](TopupWalletRequest.md) |  | 
+ **xZoneMode** | **string** | The mode of the zone (live or test). | 
 
 ### Return type
 
-[**V1WalletsTopupPost200Response**](V1WalletsTopupPost200Response.md)
+[**TopupWallet200Response**](TopupWallet200Response.md)
 
 ### Authorization
 
@@ -146,9 +150,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## V1WalletsTransferPost
+## TransferWallet
 
-> V1WalletsTopupPost200Response V1WalletsTransferPost(ctx).V1WalletsTransferPostRequest(v1WalletsTransferPostRequest).Execute()
+> TopupWallet200Response TransferWallet(ctx).XZoneID(xZoneID).TransferWalletRequest(transferWalletRequest).XZoneMode(xZoneMode).Execute()
 
 Transfer between wallets
 
@@ -165,17 +169,19 @@ import (
 )
 
 func main() {
-	v1WalletsTransferPostRequest := *openapiclient.NewV1WalletsTransferPostRequest("ToUserId_example", int64(123), "Currency_example", "ReferenceId_example") // V1WalletsTransferPostRequest | 
+	xZoneID := "xZoneID_example" // string | The ID of the zone for this request.
+	transferWalletRequest := *openapiclient.NewTransferWalletRequest("ToUserId_example", int64(123), "Currency_example", "ReferenceId_example") // TransferWalletRequest | 
+	xZoneMode := "xZoneMode_example" // string | The mode of the zone (live or test). (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WalletsAPI.V1WalletsTransferPost(context.Background()).V1WalletsTransferPostRequest(v1WalletsTransferPostRequest).Execute()
+	resp, r, err := apiClient.WalletsAPI.TransferWallet(context.Background()).XZoneID(xZoneID).TransferWalletRequest(transferWalletRequest).XZoneMode(xZoneMode).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `WalletsAPI.V1WalletsTransferPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `WalletsAPI.TransferWallet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `V1WalletsTransferPost`: V1WalletsTopupPost200Response
-	fmt.Fprintf(os.Stdout, "Response from `WalletsAPI.V1WalletsTransferPost`: %v\n", resp)
+	// response from `TransferWallet`: TopupWallet200Response
+	fmt.Fprintf(os.Stdout, "Response from `WalletsAPI.TransferWallet`: %v\n", resp)
 }
 ```
 
@@ -185,16 +191,18 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1WalletsTransferPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiTransferWalletRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **v1WalletsTransferPostRequest** | [**V1WalletsTransferPostRequest**](V1WalletsTransferPostRequest.md) |  | 
+ **xZoneID** | **string** | The ID of the zone for this request. | 
+ **transferWalletRequest** | [**TransferWalletRequest**](TransferWalletRequest.md) |  | 
+ **xZoneMode** | **string** | The mode of the zone (live or test). | 
 
 ### Return type
 
-[**V1WalletsTopupPost200Response**](V1WalletsTopupPost200Response.md)
+[**TopupWallet200Response**](TopupWallet200Response.md)
 
 ### Authorization
 
