@@ -1,9 +1,9 @@
-package fintech
+package sapliy
 
 import (
 	"context"
 
-	"github.com/sapliy/fintech-sdk-go/generated"
+	"github.com/sapliy/sapliy-sdk-go/generated"
 )
 
 // ZonesService handles multi-tenancy scoping and lifecycle.

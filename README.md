@@ -1,9 +1,9 @@
 # @sapliyio/fintech-go
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/sapliy/fintech-sdk-go.svg)](https://pkg.go.dev/github.com/sapliy/fintech-sdk-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/sapliy/sapliy-sdk-go.svg)](https://pkg.go.dev/github.com/sapliy/sapliy-sdk-go)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Official Go SDK for the Sapliy Fintech Ecosystem. Build robust financial applications with type-safe, idiomatic Go.
+Official Go SDK for the Sapliy Ecosystem. Build robust financial applications with type-safe, idiomatic Go.
 
 ## Features
 
@@ -17,7 +17,7 @@ Official Go SDK for the Sapliy Fintech Ecosystem. Build robust financial applica
 ## Installation
 
 ```bash
-go get github.com/sapliy/fintech-sdk-go
+go get github.com/sapliy/sapliy-sdk-go
 ```
 
 ## Quick Start
@@ -30,14 +30,14 @@ import (
     "fmt"
     "log"
 
-    fintech "github.com/sapliy/fintech-sdk-go"
+    fintech "github.com/sapliy/sapliy-sdk-go"
 )
 
 func main() {
-    client := fintech.NewClient("sk_test_...")
+    client := sapliy.NewClient("sk_test_...")
 
     // Create a payment
-    payment, err := client.Payments.Create(context.Background(), &fintech.CreateChargeRequest{
+    payment, err := client.Payments.Create(context.Background(), &sapliy.CreateChargeRequest{
         Amount:      2000, // $20.00
         Currency:    "USD",
         SourceID:    "src_123",
@@ -55,13 +55,13 @@ func main() {
 
 ```go
 // Custom base URL (for self-hosted)
-client := fintech.NewClient("sk_test_...",
-    fintech.WithBaseURL("https://api.yourdomain.com"),
+client := sapliy.NewClient("sk_test_...",
+    sapliy.WithBaseURL("https://api.yourdomain.com"),
 )
 
 // Custom HTTP client
-client := fintech.NewClient("sk_test_...",
-    fintech.WithHTTPClient(&http.Client{
+client := sapliy.NewClient("sk_test_...",
+    sapliy.WithHTTPClient(&http.Client{
         Timeout: 30 * time.Second,
     }),
 )
@@ -73,7 +73,7 @@ client := fintech.NewClient("sk_test_...",
 
 ```go
 // Create a charge
-payment, err := client.Payments.Create(ctx, &fintech.CreateChargeRequest{
+payment, err := client.Payments.Create(ctx, &sapliy.CreateChargeRequest{
     Amount:      1000,
     Currency:    "USD",
     SourceID:    "src_123",
@@ -91,7 +91,7 @@ payment, err := client.Payments.Refund(ctx, "pay_123", 500) // partial refund
 
 ```go
 // Create a wallet
-wallet, err := client.Wallets.Create(ctx, &fintech.CreateWalletRequest{
+wallet, err := client.Wallets.Create(ctx, &sapliy.CreateWalletRequest{
     Name:     "User Wallet",
     Currency: "USD",
 })
@@ -100,13 +100,13 @@ wallet, err := client.Wallets.Create(ctx, &fintech.CreateWalletRequest{
 wallet, err := client.Wallets.Get(ctx, "wal_123")
 
 // Credit (add funds)
-wallet, err := client.Wallets.Credit(ctx, "wal_123", &fintech.WalletCreditRequest{
+wallet, err := client.Wallets.Credit(ctx, "wal_123", &sapliy.WalletCreditRequest{
     Amount:      1000,
     Description: "Deposit",
 })
 
 // Debit (withdraw funds)
-wallet, err := client.Wallets.Debit(ctx, "wal_123", &fintech.WalletDebitRequest{
+wallet, err := client.Wallets.Debit(ctx, "wal_123", &sapliy.WalletDebitRequest{
     Amount:      500,
     Description: "Purchase",
 })
@@ -116,7 +116,7 @@ wallet, err := client.Wallets.Debit(ctx, "wal_123", &fintech.WalletDebitRequest{
 
 ```go
 // Record a transaction
-resp, err := client.Ledger.RecordTransaction(ctx, &fintech.RecordTransactionRequest{
+resp, err := client.Ledger.RecordTransaction(ctx, &sapliy.RecordTransactionRequest{
     AccountID:   "acc_123",
     Amount:      1000,
     Currency:    "USD",
@@ -132,7 +132,7 @@ account, err := client.Ledger.GetAccount(ctx, "acc_123")
 
 ```go
 // Create a subscription
-sub, err := client.Billing.CreateSubscription(ctx, &fintech.CreateSubscriptionRequest{
+sub, err := client.Billing.CreateSubscription(ctx, &sapliy.CreateSubscriptionRequest{
     CustomerID: "cust_123",
     PlanID:     "plan_monthly",
 })
@@ -220,11 +220,11 @@ package main
 import (
     "net/http"
 
-    fintech "github.com/sapliy/fintech-sdk-go"
+    fintech "github.com/sapliy/sapliy-sdk-go"
 )
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
-    client := fintech.NewClient("sk_test_...")
+    client := sapliy.NewClient("sk_test_...")
     secret := "whsec_..."
 
     payload, _ := io.ReadAll(r.Body)
@@ -252,7 +252,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 ```go
 payment, err := client.Payments.Get(ctx, "invalid_id")
 if err != nil {
-    // err contains: "Fintech API Error (404): Payment not found"
+    // err contains: "Financial Automation API Error (404): Payment not found"
     log.Printf("Error: %v", err)
 }
 ```
@@ -268,11 +268,11 @@ defer cancel()
 payment, err := client.Payments.Create(ctx, req)
 ```
 
-## Part of Sapliy Fintech Ecosystem
+## Part of Sapliy Ecosystem
 
 - [fintech-ecosystem](https://github.com/Sapliy/fintech-ecosystem) — Core backend
-- [fintech-sdk-node](https://github.com/Sapliy/fintech-sdk-node) — Node.js SDK
-- [fintech-sdk-python](https://github.com/Sapliy/fintech-sdk-python) — Python SDK
+- [sapliy-sdk-node](https://github.com/Sapliy/sapliy-sdk-node) — Node.js SDK
+- [sapliy-sdk-python](https://github.com/Sapliy/sapliy-sdk-python) — Python SDK
 
 ## License
 

@@ -1,9 +1,9 @@
-package fintech
+package sapliy
 
 import (
 	"context"
 
-	"github.com/sapliy/fintech-sdk-go/generated"
+	"github.com/sapliy/sapliy-sdk-go/generated"
 )
 
 // EventsService provides high-level methods for emitting and replaying events.

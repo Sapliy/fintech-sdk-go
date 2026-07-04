@@ -1,9 +1,9 @@
-package fintech
+package sapliy
 
 import (
 	"context"
 
-	"github.com/sapliy/fintech-sdk-go/generated"
+	"github.com/sapliy/sapliy-sdk-go/generated"
 )
 
 // PaymentsService provides high-level methods for creating and managing payments.

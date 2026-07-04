@@ -1,7 +1,7 @@
 /*
-Sapliy Fintech API
+Sapliy API
 
-Official API for the Sapliy Fintech Ecosystem. Build robust financial applications with our type-safe, high-integrity platform.
+Official API for the Sapliy Ecosystem. Build robust financial applications with our type-safe, high-integrity platform.
 
 API version: 1.0.0
 Contact: support@sapliy.io

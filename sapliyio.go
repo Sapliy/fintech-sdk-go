@@ -1,17 +1,17 @@
-package fintech
+package sapliy
 
 import (
 	"net/http"
 	"time"
 
-	"github.com/sapliy/fintech-sdk-go/generated"
+	"github.com/sapliy/sapliy-sdk-go/generated"
 )
 
 const (
 	DefaultBaseURL = "http://localhost:8080"
 )
 
-// Client is the main entry point for the Sapliy Fintech Go SDK.
+// Client is the main entry point for the Sapliy Go SDK.
 // It provides access to all specialized services via high-level, idiomatic wrappers.
 type Client struct {
 	gen *generated.APIClient
@@ -27,7 +27,7 @@ type Client struct {
 	Events        *EventsService
 }
 
-// NewClient creates a new Fintech SDK client.
+// NewClient creates a new Financial Automation SDK client.
 func NewClient(apiKey string, opts ...ClientOption) *Client {
 	cfg := generated.NewConfiguration()
 	cfg.Servers = generated.ServerConfigurations{

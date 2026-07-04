@@ -1,5 +1,5 @@
 /*
-Sapliy Fintech API
+Sapliy API
 
 Testing FlowsAPIService
 
@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/sapliy/fintech-sdk-go/generated"
+	openapiclient "github.com/sapliy/sapliy-sdk-go/generated"
 )
 
 func Test_generated_FlowsAPIService(t *testing.T) {

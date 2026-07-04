@@ -25,7 +25,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/sapliy/fintech-sdk-go"
+	openapiclient "github.com/sapliy/sapliy-sdk-go"
 )
 
 func main() {
@@ -89,7 +89,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/sapliy/fintech-sdk-go"
+	openapiclient "github.com/sapliy/sapliy-sdk-go"
 )
 
 func main() {
@@ -161,7 +161,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/sapliy/fintech-sdk-go"
+	openapiclient "github.com/sapliy/sapliy-sdk-go"
 )
 
 func main() {

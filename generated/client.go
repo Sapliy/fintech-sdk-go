@@ -1,7 +1,7 @@
 /*
-Sapliy Fintech API
+Sapliy API
 
-Official API for the Sapliy Fintech Ecosystem. Build robust financial applications with our type-safe, high-integrity platform.
+Official API for the Sapliy Ecosystem. Build robust financial applications with our type-safe, high-integrity platform.
 
 API version: 1.0.0
 Contact: support@sapliy.io
@@ -42,7 +42,7 @@ var (
 	queryDescape    = strings.NewReplacer( "%5B", "[", "%5D", "]" )
 )
 
-// APIClient manages communication with the Sapliy Fintech API API v1.0.0
+// APIClient manages communication with the Sapliy API API v1.0.0
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration

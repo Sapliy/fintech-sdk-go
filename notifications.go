@@ -1,4 +1,4 @@
-package fintech
+package sapliy
 
 // NotificationsService handles webhook management and alerting.
 type NotificationsService struct {

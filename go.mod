@@ -1,4 +1,4 @@
-module github.com/sapliy/fintech-sdk-go
+module github.com/sapliy/sapliy-sdk-go
 
 go 1.25.6
 

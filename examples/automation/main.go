@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sapliy/fintech-sdk-go"
+	"github.com/sapliy/sapliy-sdk-go"
 )
 
 //nolint:deadcode
 func main() {
 	// Initialize SDK
-	client := fintech.NewClient("sk_test_51...your_key", fintech.WithBaseURL("http://localhost:8080"))
+	client := sapliy.NewClient("sk_test_51...your_key", sapliy.WithBaseURL("http://localhost:8080"))
 
 	// 1. Create a Zone for this example
 	// Zones.Create(ctx, orgID, name, mode, templateName) returns (zoneID string, err error)

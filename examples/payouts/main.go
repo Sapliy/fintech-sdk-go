@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sapliy/fintech-sdk-go"
+	"github.com/sapliy/sapliy-sdk-go"
 )
 
 func main() {
-	client := fintech.NewClient("sk_test_123", fintech.WithBaseURL("http://localhost:8080"))
+	client := sapliy.NewClient("sk_test_123", sapliy.WithBaseURL("http://localhost:8080"))
 	ctx := context.Background()
 
 	fmt.Println("--- Payments Example ---")

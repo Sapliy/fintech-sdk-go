@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sapliy/fintech-sdk-go"
+	"github.com/sapliy/sapliy-sdk-go"
 )
 
 /**
@@ -16,7 +16,7 @@ import (
  * 2. Activate a bundle of automation Flows
  */
 func main() {
-	client := fintech.NewClient("sk_live_bridge_991", fintech.WithBaseURL("http://localhost:8080"))
+	client := sapliy.NewClient("sk_live_bridge_991", sapliy.WithBaseURL("http://localhost:8080"))
 
 	orgID := "org_tenant_445"
 	ctx := context.Background()
