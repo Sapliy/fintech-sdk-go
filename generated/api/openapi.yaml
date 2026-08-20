@@ -4,12 +4,12 @@ info:
     email: support@sapliy.io
     name: Sapliy Support
     url: https://sapliy.io/support
-  description: "Official API for the Sapliy Fintech Ecosystem. Build robust financial\
+  description: "Official API for the Sapliy Ecosystem. Build robust financial\
     \ applications with our type-safe, high-integrity platform."
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
-  title: Sapliy Fintech API
+  title: Sapliy API
   version: 1.0.0
 servers:
 - description: Production API

@@ -1,4 +1,4 @@
-name: CI - fintech-sdk-go
+name: CI - sapliy-sdk-go
 
 on:
     push:
@@ -15,4 +15,4 @@ jobs:
               with:
                   go-version: "1.24"
             - name: Run Tests
-              run: cd fintech-sdk-go && go test -v ./...
+              run: cd sapliy-sdk-go && go test -v ./...

@@ -25,6 +25,7 @@ type Client struct {
 	Flows         *FlowsService
 	Zones         *ZonesService
 	Events        *EventsService
+	Playbooks     *PlaybooksService
 }
 
 // NewClient creates a new Financial Automation SDK client.
@@ -57,6 +58,7 @@ func NewClient(apiKey string, opts ...ClientOption) *Client {
 	c.Flows = &FlowsService{c: c}
 	c.Zones = &ZonesService{c: c}
 	c.Events = &EventsService{c: c}
+	c.Playbooks = &PlaybooksService{c: c}
 
 	return c
 }

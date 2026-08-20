@@ -1,4 +1,4 @@
-name: Release - fintech-sdk-go
+name: Release - sapliy-sdk-go
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --clean --skip-validate
-          workdir: fintech-sdk-go
+          workdir: sapliy-sdk-go
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
